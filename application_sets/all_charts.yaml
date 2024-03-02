@@ -10,7 +10,7 @@ spec:
         revision: HEAD
         directories:
           - path: charts/*
-            # exclude: charts/external-secrets
+            exclude: charts/argocd
   template:
     metadata:
       name: "{{path.basename}}"

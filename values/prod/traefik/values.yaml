@@ -116,7 +116,7 @@ extraObjects:
       entryPoints:
         - websecure
       routes:
-        - match: Host(`traefik.tpi2.local')
+        - match: Host(`traefik.tpi2.local') && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
           kind: Rule
           middlewares:
             - name: traefik-dashboard-basicauth 

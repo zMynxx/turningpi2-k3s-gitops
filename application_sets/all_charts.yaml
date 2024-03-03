@@ -36,7 +36,7 @@ spec:
           # Helm values files for overriding values in the helm chart
           # The path is relative to the spec.source.path directory defined above
           valueFiles:
-            - values.yaml
+            - /values/prod/"{{path.basename}}"/values.yaml
       destination:
         server: https://kubernetes.default.svc
         namespace: "{{path.basename}}"

@@ -1,0 +1,10 @@
+# Default values for crowdsec-traefik-bouncer.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Required parameters to be passed to the image env variables
+bouncer:
+  # -- bouncer api key (need to be generated from crowdsec agent)
+  crowdsec_bouncer_api_key: ""
+  # -- crowdsec lapi host (ie: crowdsec-service.crowdsec.svc.cluster.local:8080)
+  crowdsec_agent_host: "crowdsec-service.crowdsec.svc.cluster.local:8080)"

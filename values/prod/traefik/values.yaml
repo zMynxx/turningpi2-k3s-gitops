@@ -12,6 +12,9 @@ globalArguments:
 additionalArguments:
   - "--serversTransport.insecureSkipVerify=true"
   - "--log.level=DEBUG"
+  - "--log.filePath=/var/log/traefik.log"
+  - "--entrypoints.web.http.middlewares='common_headers,common_whitelist,crowdsec-traefik-bouncer@kubernetesCRD'"
+  - "--entrypoints.websecure.http.middlewares='common_headers,common_whitelist,crowdsec-traefik-bouncer@kubernetesCRD'"
 
 deployment:
   # -- Enable deployment
@@ -84,6 +87,19 @@ rbac:
   # https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
   # aggregateTo: [ "admin" ]
 
+
+logs:
+  general:
+    # -- By default, the logs use a text format (common), but you can
+    # also ask for the json format in the format option
+    # format: json
+    # By default, the level is set to ERROR.
+    # -- Alternative logging levels are DEBUG, PANIC, FATAL, ERROR, WARN, and INFO.
+    level: ERROR
+  access:
+    # -- To enable access logs
+    enabled: true 
+
 extraObjects:
   - apiVersion: v1
     kind: Secret 
@@ -153,6 +169,15 @@ extraObjects:
     kind: Middleware
     metadata:
       name: common_whitelist 
+    spec:
+      ipWhiteList:
+        sourceRange:
+          - "192.168.7.0/24"
+
+  - apiVersion: traefik.io/v1alpha1
+    kind: Middleware
+    metadata:
+      name: 
     spec:
       ipWhiteList:
         sourceRange:

@@ -9,14 +9,13 @@ spec:
         repoURL: https://github.com/smipin/gitops.git
         revision: HEAD
         directories:
-          - path: charts/*
-            exclude: charts/argocd
+          - path: charts/stage2/*
   template:
     metadata:
       name: "{{path.basename}}"
       namespace: argocd
       annotations:
-        argocd.argoproj.io/hook: skip
+        argocd.argoproj.io/sync-wave: "2"
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:

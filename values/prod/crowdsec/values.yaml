@@ -1,0 +1,112 @@
+# agent will deploy pod on every node as daemonSet to read wanted pods logs
+agent:
+  # -- To add custom acquisitions using available datasources (https://docs.crowdsec.net/docs/next/data_sources/intro)
+  additionalAcquisition: []
+    # - source: kinesis
+    #   stream_name: my-stream
+    #   labels:
+    #     type: mytype
+    # - source: syslog
+    #   listen_addr: 127.0.0.1
+    #   listen_port: 4242
+    #   labels:
+    #     type: syslog
+  acquisition:
+    # -- Specify each pod you want to process it logs (namespace, podName and program)
+    - namespace: "traefik" 
+      # -- to select pod logs to process
+      podName: "traefik-*" 
+      # -- program name related to specific parser you will use (see https://hub.crowdsec.net/author/crowdsecurity/configurations/docker-logs)
+      program: "traefik" 
+  env: 
+    # by default we configure the docker-logs parser to be able to parse docker logs in k8s
+    # by default we disable local API on the agent pod
+    # - name: SCENARIOS
+    #   value: "scenario/name otherScenario/name"
+    - name: PARSERS
+      value: "crowdsecurity/cri-logs"
+    - name: COLLECTIONS
+      value: "crowdsecurity/traefik"
+    - name: DISABLE_PARSERS
+      value: "crowdsecurity/whitelist"
+    # - name: POSTOVERFLOWS
+    #   value: "postoverflow/name otherPostoverflow/name"
+    # - name: CONFIG_FILE
+    #   value: "/etc/crowdsec/config.yaml"
+    # - name: DSN
+    #   value: "file:///var/log/toto.log"
+    # - name: TYPE
+    #   value: "Labels.type_for_time-machine_mode"
+    # - name: TEST_MODE
+    #   value: "false"
+    # - name: TZ
+    #   value: ""
+    # - name: DISABLE_AGENT
+    #   value: "false"
+    # - name: DISABLE_ONLINE_API
+    #   value: "false"
+    # - name: LEVEL_TRACE
+    #   value: "false"
+    # - name: LEVEL_DEBUG
+    #   value: "false"
+    # - name: LEVEL_INFO
+    #   value: "false"
+
+# Here you can specify your own custom configuration to be loaded in crowdsec agent or lapi
+# Each config needs to be a multi-line using '|' in YAML specs
+# for the agent those configs will be loaded : parsers, scenarios, postoverflows, simulation.yaml
+# for the lapi those configs will be loaded : profiles.yaml, notifications, console.yaml
+config:
+  # -- to better understand how to write a postoverflow, you can take a look at (https://docs.crowdsec.net/docs/next/whitelist/create/#whitelist-in-postoverflows)
+  postoverflows:
+    s01-whitelist:
+      localips.yaml: |
+        name: crowdsecurity/whitelists
+        description: "Whitelist events from private ipv4 addresses"
+        whitelist:
+          reason: "private ipv4/ipv6 ip/ranges"
+          ip: 
+            - "127.0.0.1"
+            - "::1"
+          cidr:
+            - "192.168.7.0/24"
+
+# lapi will deploy pod with crowdsec lapi and dashboard as deployment
+lapi:
+  # -- environment variables from crowdsecurity/crowdsec docker image
+  env: 
+    - name: ENROLL_KEY
+      value: ""
+    - name: ENROLL_INSTANCE_NAME
+      value: "" 
+    - name: ENROLL_TAGS
+      value: ""
+
+  # -- Enable ingress lapi object
+  ingress:
+    enabled: false
+    annotations:
+    # labels: {}
+    ingressClassName: "" # nginx
+    host: "" # crowdsec-api.example.com
+    # tls: {}
+
+  dashboard:
+    # -- Enable Metabase Dashboard (by default disabled)
+    enabled: false
+    # -- Enable ingress object
+    ingress:
+      enabled: true 
+      annotations:
+      # labels: {}
+      ingressClassName: "traefik"
+      host: "crowdsec-dashboard.tpi2.local" # metabase.example.com
+      # tls: {}
+
+
+# Default values for crowdsec-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# -- for raw logs format: json or cri (docker|containerd)
+container_runtime: containerd 

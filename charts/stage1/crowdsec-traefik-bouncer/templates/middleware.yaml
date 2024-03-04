@@ -1,0 +1,10 @@
+# vim: set ft=gotmpl:
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  forwardAuth:
+    address: http://{{ .Release.Name }}-service.{{ .Release.Namespace }}/api/v1/forwardAuth

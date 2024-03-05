@@ -13,8 +13,8 @@ additionalArguments:
   - "--serversTransport.insecureSkipVerify=true"
   - "--log.level=DEBUG"
   - "--log.filePath=/var/log/traefik.log"
-  - "--entrypoints.web.http.middlewares='common_headers,common_whitelist,crowdsec-traefik-bouncer@kubernetesCRD'"
-  - "--entrypoints.websecure.http.middlewares='common_headers,common_whitelist,crowdsec-traefik-bouncer@kubernetesCRD'"
+  - "--entrypoints.web.http.middlewares='common-headers,common-whitelist,crowdsec-traefik-bouncer@kubernetesCRD'"
+  - "--entrypoints.websecure.http.middlewares='common-headers,common-whitelist,crowdsec-traefik-bouncer@kubernetesCRD'"
 
 deployment:
   # -- Enable deployment
@@ -24,11 +24,63 @@ deployment:
   # -- Number of pods of the deployment (only applies when kind == Deployment)
   replicas: 3
 
+# -- This example pod anti-affinity forces the scheduler to put traefik pods
+# -- on nodes where no other traefik pods are scheduled.
+# It should be used when hostNetwork: true to prevent port conflicts
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/instance
+            operator: In
+            values:
+            - '{{ .Release.Name }}-{{ .Release.Namespace }}'
+          - key: app.kubernetes.io/name
+            operator: In
+            values:
+            - '{{ template "traefik.name" . }}'
+        topologyKey: kubernetes.io/hostname
+
 ## Create an IngressRoute for the dashboard
 ingressRoute:
   dashboard:
     # -- Create an IngressRoute for the dashboard
-    enabled: false 
+    enabled: true
+
+    # -- Additional ingressRoute annotations (e.g. for kubernetes.io/ingress.class)
+    annotations: {}
+    # -- Additional ingressRoute labels (e.g. for filtering IngressRoute by custom labels)
+    labels: {}
+    # -- The router match rule used for the dashboard ingressRoute
+    matchRule: Host('traefik.tpi2.local') || PathPrefix(`/dashboard`) || PathPrefix(`/api`)
+    # -- Specify the allowed entrypoints to use for the dashboard ingress route, (e.g. traefik, web, websecure).
+    # By default, it's using traefik entrypoint, which is not exposed.
+    # /!\ Do not expose your dashboard without any protection over the internet /!\
+    entryPoints: ["traefik"]
+    # -- Additional ingressRoute middlewares (e.g. for authentication)
+    middlewares: []
+    # -- TLS options (e.g. secret containing certificate)
+    tls: {}
+  healthcheck:
+    # -- Create an IngressRoute for the healthcheck probe
+    enabled: false
+    # -- Additional ingressRoute annotations (e.g. for kubernetes.io/ingress.class)
+    annotations: {}
+    # -- Additional ingressRoute labels (e.g. for filtering IngressRoute by custom labels)
+    labels: {}
+    # -- The router match rule used for the healthcheck ingressRoute
+    matchRule: PathPrefix(`/ping`)
+    # -- Specify the allowed entrypoints to use for the healthcheck ingress route, (e.g. traefik, web, websecure).
+    # By default, it's using traefik entrypoint, which is not exposed.
+    entryPoints: ["traefik"]
+    # -- Additional ingressRoute middlewares (e.g. for authentication)
+    middlewares: []
+    # -- TLS options (e.g. secret containing certificate)
+    tls: {}
+
   timeoutSeconds: 2
 
 ports:
@@ -101,19 +153,6 @@ logs:
     enabled: true 
 
 extraObjects:
-  - apiVersion: v1
-    kind: Secret 
-    metadata:
-      name: traefik-dashboard-auth
-      namespace: traefik
-    spec:
-      type: Opaque
-      data:
-        # htpasswd -nb user password | openssl base64
-        #  -n  Don't update file; display results on stdout.
-        # -b  Use the password from the command line rather than prompting for it.
-        users:  ek15bnh4OiRhcHIxJGVrNEhnT0Q5JFQ0ZVRvOVVKNXljUjFCaloxVDJEai8KCg==
-
   - apiVersion: traefik.io/v1alpha1
     kind: Middleware
     metadata:
@@ -140,18 +179,18 @@ extraObjects:
           services:
             - name: api@internal
               kind: TraefikService
-      tls:
-        secretName: traefik-cert
-        certResolver: cloudflare
-        domains:
-          - main: traefik.tpi2.local
-            sans:
-              - "*.traefik.tpi2.local"
+      # tls:
+      #   secretName: traefik-cert
+      #   certResolver: cloudflare
+      #   domains:
+      #     - main: traefik.tpi2.local
+      #       sans:
+      #         - "*.traefik.tpi2.local"
 
   - apiVersion: traefik.io/v1alpha1
     kind: Middleware
     metadata:
-      name: common_headers 
+      name: common-headers 
     spec:
       headers:
         browserXssFilter: true
@@ -168,16 +207,7 @@ extraObjects:
   - apiVersion: traefik.io/v1alpha1
     kind: Middleware
     metadata:
-      name: common_whitelist 
-    spec:
-      ipWhiteList:
-        sourceRange:
-          - "192.168.7.0/24"
-
-  - apiVersion: traefik.io/v1alpha1
-    kind: Middleware
-    metadata:
-      name: 
+      name: common-whitelist 
     spec:
       ipWhiteList:
         sourceRange:

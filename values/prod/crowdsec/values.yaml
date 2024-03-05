@@ -27,8 +27,8 @@ agent:
       value: "crowdsecurity/cri-logs"
     - name: COLLECTIONS
       value: "crowdsecurity/traefik"
-    - name: DISABLE_PARSERS
-      value: "crowdsecurity/whitelist"
+    # - name: DISABLE_PARSERS
+    #   value: "crowdsecurity/whitelist"
     # - name: POSTOVERFLOWS
     #   value: "postoverflow/name otherPostoverflow/name"
     # - name: CONFIG_FILE
@@ -76,11 +76,11 @@ lapi:
   # -- environment variables from crowdsecurity/crowdsec docker image
   env: 
     - name: ENROLL_KEY
-      value: ""
+      value: "YOUR_ENROLL_KEY"
     - name: ENROLL_INSTANCE_NAME
-      value: "" 
+      value: "k3s-cluster"
     - name: ENROLL_TAGS
-      value: ""
+      value: "TEST"
 
   # -- Enable ingress lapi object
   ingress:
@@ -100,7 +100,7 @@ lapi:
       annotations:
       # labels: {}
       ingressClassName: "traefik"
-      host: "crowdsec-dashboard.tpi2.local" # metabase.example.com
+      host: "crowdsec.tpi2.local" 
       # tls: {}
 
 

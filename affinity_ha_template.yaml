@@ -1,0 +1,18 @@
+## Use the following template to fan out the deployment to multiple nodes, for high availability. Set the matching labels in the deployment.yaml file.
+# Keep in mind that if you have more pods than nodes, you will need to set the podAntiAffinity to prefferedDuringSchedulingIgnoredDuringExecution. 
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/instance
+            operator: In
+            values:
+            - '{{ .Release.Name }}-{{ .Release.Namespace }}'
+          - key: app.kubernetes.io/name
+            operator: In
+            values:
+            - '{{ template "traefik.name" . }}'
+        topologyKey: kubernetes.io/hostname

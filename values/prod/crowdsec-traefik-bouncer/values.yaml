@@ -5,6 +5,8 @@
 # Required parameters to be passed to the image env variables
 bouncer:
   # -- bouncer api key (need to be generated from crowdsec agent)
-  crowdsec_bouncer_api_key: ""
+  # -- to generate a new api key, you can use the following command : 
+  # cscli bouncers add crowdsec-traefik-bouncer
+  crowdsec_bouncer_api_key: "YOUR_API_KEY"
   # -- crowdsec lapi host (ie: crowdsec-service.crowdsec.svc.cluster.local:8080)
   crowdsec_agent_host: "crowdsec-service.crowdsec.svc.cluster.local:8080"

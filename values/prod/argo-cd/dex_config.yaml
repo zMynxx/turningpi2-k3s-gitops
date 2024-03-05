@@ -1,0 +1,26 @@
+apiVersion: v1 
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  # Once GitHub Auth is enabled, disable the local admin user.
+  # admin.enabled: "false"
+  url: 'https://argocd.tpi2.local'
+  dex.config: |
+      connectors:
+        # GitHub Application Connector
+        - type: github
+          id: github
+          name: GitHub
+          config:
+            clientID: $github-connector:dex.config.connectors.clientID
+            clientSecret: $github-connector:dex.config.connectors.clientSecret
+            # orgs:
+            # - name: zMynxx
+            #   teams:
+            #     - developers
+            #     - devops 

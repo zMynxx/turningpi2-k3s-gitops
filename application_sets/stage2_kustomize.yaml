@@ -31,11 +31,6 @@ spec:
         repoURL: https://github.com/zMynxx/turningpi2-k3s-gitops.git
         targetRevision: HEAD
         path: "{{path}}"
-        helm:
-          # Helm values files for overriding values in the helm chart
-          # The path is relative to the spec.source.path directory defined above
-          valueFiles:
-            - /values/prod/"{{path.basename}}"/values.yaml
       destination:
         server: https://kubernetes.default.svc
         namespace: "{{path.basename}}"

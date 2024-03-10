@@ -16,3 +16,4 @@ namespace: longhorn
 # Additonal resources to apply - do not worry about the order if you are using ArgoCD
 resources:
 - namespace.yaml 
+- longhorn-dashboard-ingressroute.yaml

@@ -14,5 +14,49 @@ affinity:
           - key: app.kubernetes.io/name
             operator: In
             values:
+            - app.kubernetes.io/name: '{{ template "traefik.name" . }}'
+        topologyKey: kubernetes.io/hostname
+        
+
+  # For HA accross AZs use the following:
+affinity: 
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/name
+            operator: In
+            values:
             - '{{ template "traefik.name" . }}'
         topologyKey: kubernetes.io/hostname
+topologySpreadConstraints:
+- maxSkew: 1
+  topologyKey: topology.kubernetes.io/zone
+  whenUnsatisfiable: ScheduleAnyway
+  labelSelector:
+    matchLabels:
+     app.kubernetes.io/name: '{{ template "traefik.name" . }}'
+
+
+
+topologySpreadConstraints:
+  # Spread the pods across the AZs
+  # $ The first constraint makes sure the number of Pods across Nodes with the same topology.kubernetes.io/zone label is one at maximum.
+  - maxSkew: 1
+    topologyKey: topology.kubernetes.io/zone
+    whenUnsatisfiable: DoNotSchedule
+    labelSelector:
+      matchLabels:
+        app.kubernetes.io/name: hello-world-app
+        app.kubernetes.io/version: 0.1.0
+  # Spread the pods across the nodes
+  # $ The second constraint makes sure the number of Pods across Nodes with the same kubernetes.io/hostname label is one at maximum.
+  - maxSkew: 1
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: ScheduleAnyway
+    labelSelector:
+      matchLabels:
+        app.kubernetes.io/name: hello-world-app
+        app.kubernetes.io/version: 0.1.0

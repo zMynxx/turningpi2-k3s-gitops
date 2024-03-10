@@ -1,0 +1,47 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: traefik
+#namePrefix: "${namespace}-"
+#nameSuffix: -mysuffix§
+# commonLabels:
+#   my.label: mylabel
+# commonAnnotations:
+#   my.annotation: myannotation
+#
+
+# Set the deploy order in not using ArgoCD
+# This will deploy the helm chart first, followed by these resources.
+sortOptions:
+  order: legacy
+  legacySortOptions:
+    orderFirst:
+    - Namespace
+    orderLast:
+    - Middleware
+    - IngressRoute
+    - Secret
+
+# helmCharts: https://kubectl.docs.kubernetes.io/references/kustomize/builtins/#_helmchartinflationgenerator_
+helmCharts:
+# Use a Helm chart from the official Helm chart repository
+- name: traefik 
+  version: 26.1.0 
+  repo: https://traefik.github.io/charts 
+  valuesFile: values.yaml
+  namespace: traefik
+  includeCRDs: true
+
+
+# Additonal resources to apply - do not worry about the order if you are using ArgoCD
+resources:
+- dashboard-basicauth-middlewere.yaml
+- dashboard-ingressroute.yaml
+- default-headers-middlewere.yaml
+- namespace.yaml
+# - cloudflare-secret.secret.yaml
+# - traefik-dashboard-auth.secret.yaml
+
+# generators:
+# - configmap-dashboards.yaml
+# - configmap-env.yaml

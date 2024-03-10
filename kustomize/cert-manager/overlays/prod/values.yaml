@@ -1,0 +1,40 @@
+# Install the cert-manager CRDs, it is recommended to not use Helm to manage
+# the CRDs
+installCRDs: true 
+
+# Number of replicas of the cert-manager controller to run.
+#
+# The default is 1, but in production you should set this to 2 or 3 to provide high
+# availability.
+#
+# If `replicas > 1` you should also consider setting `podDisruptionBudget.enabled=true`.
+#
+# Note: cert-manager uses leader election to ensure that there can
+# only be a single instance active at a time.
+replicaCount: 3
+
+# Additional command line flags to pass to cert-manager controller binary.
+# To see all available flags run docker run quay.io/jetstack/cert-manager-controller:<version> --help
+#
+# Use this flag to enable or disable arbitrary controllers, for example, disable the CertificiateRequests approver
+#
+# For example:
+#  extraArgs:
+#    - --controllers=*,-certificaterequests-approver
+extraArgs: 
+  - --dns01-recursive-nameservers-only=true
+  - --dns01-recursive-nameservers=1.1.1.1:53,9.9.9.9:53
+
+# Pod DNS policy
+# ref: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
+# +docs:property
+podDnsPolicy: "None"
+
+# Pod DNS config, podDnsConfig field is optional and it can work with any podDnsPolicy
+# settings. However, when a Pod's dnsPolicy is set to "None", the dnsConfig field has to be specified.
+# ref: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-dns-config
+# +docs:property
+podDnsConfig:
+  nameservers:
+    - "1.1.1.1"
+    - "9.9.9.9"

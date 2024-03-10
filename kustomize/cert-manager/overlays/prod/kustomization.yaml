@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# helmCharts: https://kubectl.docs.kubernetes.io/references/kustomize/builtins/#_helmchartinflationgenerator_
+helmCharts:
+# Use a Helm chart from the official Helm chart repository
+- name: cert-manager 
+  version: 1.14.3 
+  repo: https://charts.jetstack.io
+  valuesFile: values.yaml
+  namespace: cert-manager 
+  includeCRDs: true
+
+namespace: cert-manager
+
+# Additonal resources to apply - do not worry about the order if you are using ArgoCD
+resources:
+- namespace.yaml 
+- cert-production.yaml
+- letsencrypt-production.yaml

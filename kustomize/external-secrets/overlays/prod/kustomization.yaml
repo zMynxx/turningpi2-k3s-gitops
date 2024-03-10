@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# helmCharts: https://kubectl.docs.kubernetes.io/references/kustomize/builtins/#_helmchartinflationgenerator_
+helmCharts:
+# Use a Helm chart from the official Helm chart repository
+- name: crowdsec 
+  version: 0.9.12 
+  repo: https://crowdsecurity.github.io/helm-charts
+  valuesFile: values.yaml
+  namespace: crowdsec 
+  includeCRDs: true
+
+namespace: crowdsec 
+
+# Additonal resources to apply - do not worry about the order if you are using ArgoCD
+resources:
+- namespace.yaml 

@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# helmCharts: https://kubectl.docs.kubernetes.io/references/kustomize/builtins/#_helmchartinflationgenerator_
+helmCharts:
+# Use a Helm chart from the official Helm chart repository
+- name: promtail 
+  version: 1.6.0 
+  repo: https://grafana.github.io/helm-charts 
+  valuesFile: values.yaml
+  namespace: promtail 
+  includeCRDs: true
+
+namespace: promtail 
+
+# Additonal resources to apply - do not worry about the order if you are using ArgoCD
+resources:
+- namespace.yaml 

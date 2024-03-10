@@ -8,7 +8,6 @@ namespace: traefik
 #   my.label: mylabel
 # commonAnnotations:
 #   my.annotation: myannotation
-#
 
 # Set the deploy order in not using ArgoCD
 # This will deploy the helm chart first, followed by these resources.
@@ -22,6 +21,9 @@ sortOptions:
     - IngressRoute
     - Secret
 
+helmGlobals:
+  chartHome: ../../../../charts/
+
 # helmCharts: https://kubectl.docs.kubernetes.io/references/kustomize/builtins/#_helmchartinflationgenerator_
 helmCharts:
 # Use a Helm chart from the official Helm chart repository
@@ -31,7 +33,6 @@ helmCharts:
   valuesFile: values.yaml
   namespace: traefik
   includeCRDs: true
-
 
 # Additonal resources to apply - do not worry about the order if you are using ArgoCD
 resources:

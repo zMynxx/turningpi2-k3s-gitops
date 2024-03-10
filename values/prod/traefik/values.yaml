@@ -8,13 +8,13 @@ globalArguments:
 # Configure Traefik static configuration
 # -- Additional arguments to be passed at Traefik's binary
 # All available options available on https://docs.traefik.io/reference/static-configuration/cli/
-## Use curly braces to pass values: `helm install --set="additionalArguments={--providers.kubernetesingress.ingressclass=traefik-internal,--log.level=DEBUG}"`
+# Use curly braces to pass values: `helm install --set="additionalArguments={--providers.kubernetesingress.ingressclass=traefik-internal,--log.level=DEBUG}"`
 additionalArguments:
   - "--serversTransport.insecureSkipVerify=true"
   - "--log.level=DEBUG"
   - "--log.filePath=/var/log/traefik.log"
-  - "--entrypoints.web.http.middlewares='common-headers,common-whitelist,crowdsec-traefik-bouncer@kubernetesCRD'"
-  - "--entrypoints.websecure.http.middlewares='common-headers,common-whitelist,crowdsec-traefik-bouncer@kubernetesCRD'"
+  # - "--entrypoints.web.http.middlewares='common_headers,common_whitelist,crowdsec-traefik-bouncer@kubernetesCRD'"
+  # - "--entrypoints.websecure.http.middlewares='common_headers,common_whitelist,crowdsec-traefik-bouncer@kubernetesCRD'"
 
 deployment:
   # -- Enable deployment
@@ -24,64 +24,11 @@ deployment:
   # -- Number of pods of the deployment (only applies when kind == Deployment)
   replicas: 3
 
-# -- This example pod anti-affinity forces the scheduler to put traefik pods
-# -- on nodes where no other traefik pods are scheduled.
-# It should be used when hostNetwork: true to prevent port conflicts
-affinity:
-  podAntiAffinity:
-    preferredDuringSchedulingIgnoredDuringExecution:
-    - weight: 100
-      podAffinityTerm:
-        labelSelector:
-          matchExpressions:
-          - key: app.kubernetes.io/instance
-            operator: In
-            values:
-            - '{{ .Release.Name }}-{{ .Release.Namespace }}'
-          - key: app.kubernetes.io/name
-            operator: In
-            values:
-            - '{{ template "traefik.name" . }}'
-        topologyKey: kubernetes.io/hostname
-
 ## Create an IngressRoute for the dashboard
 ingressRoute:
   dashboard:
     # -- Create an IngressRoute for the dashboard
-    enabled: true
-
-    # -- Additional ingressRoute annotations (e.g. for kubernetes.io/ingress.class)
-    annotations: {}
-    # -- Additional ingressRoute labels (e.g. for filtering IngressRoute by custom labels)
-    labels: {}
-    # -- The router match rule used for the dashboard ingressRoute
-    matchRule: Host('traefik.tpi2.local') || PathPrefix(`/dashboard`) || PathPrefix(`/api`)
-    # -- Specify the allowed entrypoints to use for the dashboard ingress route, (e.g. traefik, web, websecure).
-    # By default, it's using traefik entrypoint, which is not exposed.
-    # /!\ Do not expose your dashboard without any protection over the internet /!\
-    entryPoints: ["traefik"]
-    # -- Additional ingressRoute middlewares (e.g. for authentication)
-    middlewares: []
-    # -- TLS options (e.g. secret containing certificate)
-    tls: {}
-  healthcheck:
-    # -- Create an IngressRoute for the healthcheck probe
-    enabled: false
-    # -- Additional ingressRoute annotations (e.g. for kubernetes.io/ingress.class)
-    annotations: {}
-    # -- Additional ingressRoute labels (e.g. for filtering IngressRoute by custom labels)
-    labels: {}
-    # -- The router match rule used for the healthcheck ingressRoute
-    matchRule: PathPrefix(`/ping`)
-    # -- Specify the allowed entrypoints to use for the healthcheck ingress route, (e.g. traefik, web, websecure).
-    # By default, it's using traefik entrypoint, which is not exposed.
-    entryPoints: ["traefik"]
-    # -- Additional ingressRoute middlewares (e.g. for authentication)
-    middlewares: []
-    # -- TLS options (e.g. secret containing certificate)
-    tls: {}
-
-  timeoutSeconds: 2
+    enabled: false 
 
 ports:
   web:
@@ -108,10 +55,20 @@ providers:
     enabled: true
     # IP used for Kubernetes Ingress endpoints
     publishedService:
-      enabled: true 
+      enabled: false 
       # Published Kubernetes Service to copy status from. Format: namespace/servicename
       # By default this Traefik service
       # pathOverride: ""
+
+# -- Whether Role Based Access Control objects like roles and rolebindings should be created
+rbac:
+  enabled: true
+  # If set to false, installs ClusterRole and ClusterRoleBinding so Traefik can be used across namespaces.
+  # If set to true, installs Role and RoleBinding. Providers will only watch target namespace.
+  namespaced: false
+  # Enable user-facing roles
+  # https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
+  # aggregateTo: [ "admin" ]
 
 service:
   enabled: true
@@ -128,18 +85,6 @@ service:
   # externalTrafficPolicy: Cluster
     loadBalancerIP: "192.168.7.100"
 
-
-# -- Whether Role Based Access Control objects like roles and rolebindings should be created
-rbac:
-  enabled: true
-  # If set to false, installs ClusterRole and ClusterRoleBinding so Traefik can be used across namespaces.
-  # If set to true, installs Role and RoleBinding. Providers will only watch target namespace.
-  namespaced: false
-  # Enable user-facing roles
-  # https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
-  # aggregateTo: [ "admin" ]
-
-
 logs:
   general:
     # -- By default, the logs use a text format (common), but you can
@@ -152,63 +97,90 @@ logs:
     # -- To enable access logs
     enabled: true 
 
-extraObjects:
-  - apiVersion: traefik.io/v1alpha1
-    kind: Middleware
-    metadata:
-      name: traefik-dashboard-basicauth 
-      namespace: traefik
-    spec:
-      basicAuth:
-        secret: traefik-dashboard-auth
-
-  - apiVersion: traefik.containo.us/v1alpha1
-    kind: IngressRoute
-    metadata:
-      name: traefik-dashboard
-      namespace: traefik
-    spec:
-      entryPoints:
-        - websecure
-      routes:
-        - match: Host(`traefik.tpi2.local') && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
-          kind: Rule
-          middlewares:
-            - name: traefik-dashboard-basicauth 
-              namespace: traefik
-          services:
-            - name: api@internal
-              kind: TraefikService
-      # tls:
-      #   secretName: traefik-cert
-      #   certResolver: cloudflare
-      #   domains:
-      #     - main: traefik.tpi2.local
-      #       sans:
-      #         - "*.traefik.tpi2.local"
-
-  - apiVersion: traefik.io/v1alpha1
-    kind: Middleware
-    metadata:
-      name: common-headers 
-    spec:
-      headers:
-        browserXssFilter: true
-        contentTypeNosniff: true
-        forceSTSHeader: true
-        stsIncludeSubdomains: true
-        stsPreload: true
-        stsSeconds: 15552000
-        customRequestHeaders:
-          X-Forwarded-Proto: "https"
-        customFrameOptionsValue: "SAMEORIGIN"
-
-
-  - apiVersion: traefik.io/v1alpha1
-    kind: Middleware
-    metadata:
-      name: common-whitelist 
-    spec:
-      ipWhiteList:
-        sourceRange:
-          - "192.168.7.0/24"
+# -- Environment variables to be passed to Traefik's binary from configMaps or secrets
+# envFrom:
+#   - secretRef:
+#       name: cloudflare-secret
+#
+# extraObjects:
+#   - apiVersion: v1
+#     kind: Secret 
+#     metadata:
+#       name: traefik-dashboard-auth
+#       namespace: traefik
+#     spec:
+#       type: Opaque
+#       data:
+#         # htpasswd -nb user password | openssl base64
+#         #  -n  Don't update file; display results on stdout.
+#         # -b  Use the password from the command line rather than prompting for it.
+#         users:  ek15bnh4OiRhcHIxJGVrNEhnT0Q5JFQ0ZVRvOVVKNXljUjFCaloxVDJEai8KCg==
+#
+#   - apiVersion: traefik.io/v1alpha1
+#     kind: Middleware
+#     metadata:
+#       name: traefik-dashboard-basicauth 
+#       namespace: traefik
+#     spec:
+#       basicAuth:
+#         secret: traefik-dashboard-auth
+#
+#   - apiVersion: traefik.containo.us/v1alpha1
+#     kind: IngressRoute
+#     metadata:
+#       name: traefik-dashboard
+#       namespace: traefik
+#     spec:
+#       entryPoints:
+#         - websecure
+#       routes:
+#         - match: Host(`traefik.tpi2.local') && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
+#           kind: Rule
+#           middlewares:
+#             - name: traefik-dashboard-basicauth 
+#               namespace: traefik
+#           services:
+#             - name: api@internal
+#               kind: TraefikService
+#       tls:
+#         secretName: traefik-cert
+#         certResolver: cloudflare
+#         domains:
+#           - main: traefik.tpi2.local
+#             sans:
+#               - "*.traefik.tpi2.local"
+#
+#   - apiVersion: traefik.io/v1alpha1
+#     kind: Middleware
+#     metadata:
+#       name: common_headers 
+#     spec:
+#       headers:
+#         browserXssFilter: true
+#         contentTypeNosniff: true
+#         forceSTSHeader: true
+#         stsIncludeSubdomains: true
+#         stsPreload: true
+#         stsSeconds: 15552000
+#         customRequestHeaders:
+#           X-Forwarded-Proto: "https"
+#         customFrameOptionsValue: "SAMEORIGIN"
+#
+#
+#   - apiVersion: traefik.io/v1alpha1
+#     kind: Middleware
+#     metadata:
+#       name: common_whitelist 
+#     spec:
+#       ipWhiteList:
+#         sourceRange:
+#           - "192.168.7.0/24"
+#
+#   - apiVersion: traefik.io/v1alpha1
+#     kind: Middleware
+#     metadata:
+#       name: 
+#     spec:
+#       ipWhiteList:
+#         sourceRange:
+#           - "192.168.7.0/24"

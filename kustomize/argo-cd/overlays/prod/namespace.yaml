@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: null
+  name: agro-cd
+spec: {}
+status: {}

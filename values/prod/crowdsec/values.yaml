@@ -76,7 +76,7 @@ lapi:
   # -- environment variables from crowdsecurity/crowdsec docker image
   env: 
     - name: ENROLL_KEY
-      value: "YOUR_ENROLL_KEY"
+      value: "cltei31sq0000jx083w246vz7"
     - name: ENROLL_INSTANCE_NAME
       value: "k3s-cluster"
     - name: ENROLL_TAGS
@@ -96,7 +96,7 @@ lapi:
     enabled: false
     # -- Enable ingress object
     ingress:
-      enabled: true 
+      enabled: false 
       annotations:
       # labels: {}
       ingressClassName: "traefik"

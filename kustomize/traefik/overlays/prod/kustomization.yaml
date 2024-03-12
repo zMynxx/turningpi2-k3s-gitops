@@ -13,8 +13,8 @@ sortOptions:
     - IngressRoute
     - Secret
 
-helmGlobals:
-  chartHome: ../../../../charts/
+# helmGlobals:
+#   chartHome: ../../../../charts/
 
 # helmCharts: https://kubectl.docs.kubernetes.io/references/kustomize/builtins/#_helmchartinflationgenerator_
 helmCharts:

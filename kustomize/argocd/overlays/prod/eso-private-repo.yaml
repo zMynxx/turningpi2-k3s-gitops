@@ -1,7 +1,7 @@
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
-  name: gitops-private-repo 
+  name: gitops 
   namespace: argocd
 
   # labels and annotations are copied over to the
@@ -15,7 +15,7 @@ spec:
     name: vault-cluster-store 
     kind: ClusterSecretStore
   target:
-    name: gitops-private-repo
+    name: gitops 
     creationPolicy: Owner
 
   ## You can get all of the secret content (recommended)

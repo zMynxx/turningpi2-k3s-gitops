@@ -17,8 +17,8 @@ data:
           id: github
           name: GitHub
           config:
-            clientID: $github-connector:dex.config.connectors.clientID
-            clientSecret: $github-connector:dex.config.connectors.clientSecret
+            clientID: $dex-github:dex.config.connectors.clientID
+            clientSecret: $dex-github:dex.config.connectors.clientSecret
             # orgs:
             # - name: zMynxx
             #   teams:

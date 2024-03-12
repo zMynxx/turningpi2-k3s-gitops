@@ -1,7 +1,7 @@
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
-  name: github-connector 
+  name: dex-github 
   namespace: argocd
 
   # labels and annotations are copied over to the

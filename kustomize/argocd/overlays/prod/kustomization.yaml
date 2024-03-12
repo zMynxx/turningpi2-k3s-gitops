@@ -2,19 +2,20 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 # helmCharts: https://kubectl.docs.kubernetes.io/references/kustomize/builtins/#_helmchartinflationgenerator_
-# helmCharts:
-# - name: argo-cd 
-#   version: 6.6.0 
-#   repo: https://argoproj.github.io/argo-helm
-#   valuesFile: values.yaml
-#   namespace: argo-cd
-#   includeCRDs: true
+helmCharts:
+- name: argo-cd 
+  version: 6.6.0 
+  repo: https://argoproj.github.io/argo-helm
+  valuesFile: values.yaml
+  namespace: &name argocd
+  includeCRDs: true
 
-namespace: &name argocd
+namespace: *name 
 resources:
 - namespace.yaml
 - eso-dex-github-connector.yaml
 - eso-private-repo.yaml
+- dashboard-ingress.yaml
 
 patches:
 - path: crds-healthcheck.patch.yaml

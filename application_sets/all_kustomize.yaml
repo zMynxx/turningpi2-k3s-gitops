@@ -27,7 +27,7 @@ spec:
           - CreateNamespace=true
         automated:
           prune: true
-          selfHeal: false
+          selfHeal: true
           allowEmpty: false
       source:
         repoURL: *repo 

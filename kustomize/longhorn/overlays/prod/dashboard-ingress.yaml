@@ -4,6 +4,7 @@ metadata:
   name: longhorn-dashboard 
   namespace: longhorn
 spec:
+  ingressClassName: traefik
   rules:
   - host: longhorn.tpi2.local
     http:

@@ -4,6 +4,7 @@ metadata:
   name: argocd-dashboard 
   namespace: argocd
 spec:
+  ingressClassName: traefik
   rules:
   - host: argocd.tpi2.local
     http:

@@ -4,6 +4,7 @@ metadata:
   name: vault-dashboard
   namespace: vault
 spec:
+  ingressClassName: traefik
   rules:
   - host: vault.tpi2.local
     http:

@@ -8,6 +8,7 @@ helmCharts:
   repo: https://argoproj.github.io/argo-helm
   valuesFile: values.yaml
   namespace: &name argocd
+  releaseName: *name
   includeCRDs: true
 
 namespace: *name 
@@ -17,6 +18,7 @@ resources:
 - eso-private-repo.yaml
 - dashboard-ingress.yaml
 - production-project.yaml
+- production-applicationset.yaml
 
 patches:
 - path: crds-healthcheck.patch.yaml

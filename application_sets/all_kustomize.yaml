@@ -1,12 +1,12 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: KustomizeAppSet 
+  name: kustomize-applicationset 
   namespace: argocd
 spec:
   generators:
     - git:
-        repoURL: https://github.com/smipin/gitops.git
+        repoURL: &repo git@github.com:zMynxx/turningpi2-k3s-gitops.git 
         revision: HEAD
         directories:
           - path: kustomize/*
@@ -30,9 +30,9 @@ spec:
           selfHeal: false
           allowEmpty: false
       source:
-        repoURL: https://github.com/zMynxx/turningpi2-k3s-gitops.git
+        repoURL: *repo 
         targetRevision: HEAD
-        path: "{{path}}"
+        path: "{{path}}/overlays/production"
       destination:
         server: https://kubernetes.default.svc
         namespace: "{{path.basename}}"

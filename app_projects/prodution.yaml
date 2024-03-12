@@ -9,17 +9,18 @@ metadata:
 spec:
   roles:
     # A role which provides read-only access to all applications in the project
-    - name: production
+    - name: production-devops
       description: devops privileges to production project
       policies:
         - p, proj:production:devops, applications, *, production/*, allow
+
 
   # Project description
   description: production environment
 
   # Allow manifests to deploy from out GitOps repos.
   sourceRepos:
-    - https://github.com/zMynxx/turningpi2-k3s-gitops.git
+    - git@github.com:zMynxx/turningpi2-k3s-gitops.git
 
   destinations:
     ## Allow all access

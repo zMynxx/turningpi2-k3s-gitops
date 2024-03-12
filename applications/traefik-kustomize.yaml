@@ -7,14 +7,16 @@ spec:
   destination:
     namespace: traefik 
     server: https://kubernetes.default.svc
-  project: default
+  project: production 
   source:
     path: kustomize/traefik/overlays/prod
-    repoURL: https://github.com/zMynxx/turningpi2-k3s-gitops
-    targetRevision: HEAD
+    repoURL: git@github.com:zMynxx/turningpi2-k3s-gitops.git
+    targetRevision: main 
   syncPolicy:
     automated:
       prune: true
-      selfHeal: false
+      selfHeal: true
     syncOptions:
     - CreateNamespace=true
+    - Validate=true
+    - PrunePropagationPolicy=Foreground

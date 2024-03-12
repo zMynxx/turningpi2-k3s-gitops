@@ -16,6 +16,7 @@ resources:
 - eso-dex-github-connector.yaml
 - eso-private-repo.yaml
 - dashboard-ingress.yaml
+- production-project.yaml
 
 patches:
 - path: crds-healthcheck.patch.yaml

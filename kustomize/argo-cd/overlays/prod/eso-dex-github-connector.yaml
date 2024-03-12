@@ -1,0 +1,24 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: github-connector 
+  namespace: argocd
+
+  # labels and annotations are copied over to the
+  # secret that will be created
+  labels:
+    app.kubernetes.io/part-of: argocd
+spec:
+  refreshInterval: 24h
+  secretStoreRef:
+    name: vault-cluster-store 
+    kind: ClusterSecretStore
+  target:
+    name: github-connector
+    creationPolicy: Owner
+
+  ## You can get all of the secret content (recommended)
+  dataFrom:
+  - extract:
+      key: secret/github-connector
+

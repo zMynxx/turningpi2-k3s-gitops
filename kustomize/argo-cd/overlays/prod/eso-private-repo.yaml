@@ -1,0 +1,24 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: gitops-private-repo 
+  namespace: argocd
+
+  # labels and annotations are copied over to the
+  # secret that will be created
+  labels:
+    app.kubernetes.io/part-of: argocd
+    argocd.argoproj.io/secret-type: repository 
+spec:
+  refreshInterval: 24h
+  secretStoreRef:
+    name: vault-cluster-store 
+    kind: ClusterSecretStore
+  target:
+    name: gitops-private-repo
+    creationPolicy: Owner
+
+  ## You can get all of the secret content (recommended)
+  dataFrom:
+  - extract:
+      key: secret/gitops-private-repo

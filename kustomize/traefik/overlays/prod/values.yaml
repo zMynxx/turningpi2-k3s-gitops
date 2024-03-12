@@ -4,7 +4,6 @@ globalArguments:
 - "--global.checknewversion=false"
 - "--global.sendanonymoususage=false"
 
-#
 # Configure Traefik static configuration
 # -- Additional arguments to be passed at Traefik's binary
 # All available options available on https://docs.traefik.io/reference/static-configuration/cli/
@@ -13,8 +12,9 @@ additionalArguments:
   - "--serversTransport.insecureSkipVerify=true"
   - "--log.level=DEBUG"
   - "--log.filePath=/var/log/traefik.log"
-  # - "--entrypoints.web.http.middlewares='common_headers,common_whitelist,crowdsec-traefik-bouncer@kubernetesCRD'"
-  # - "--entrypoints.websecure.http.middlewares='common_headers,common_whitelist,crowdsec-traefik-bouncer@kubernetesCRD'"
+  - "--api=true"
+  - "--api.insecure=true"
+  - "--api.dashboard=true"
 
 deployment:
   # -- Enable deployment
@@ -116,84 +116,3 @@ metrics:
 #       name: cloudflare-secret
 #
 # extraObjects:
-#   - apiVersion: v1
-#     kind: Secret 
-#     metadata:
-#       name: traefik-dashboard-auth
-#       namespace: traefik
-#     spec:
-#       type: Opaque
-#       data:
-#         # htpasswd -nb user password | openssl base64
-#         #  -n  Don't update file; display results on stdout.
-#         # -b  Use the password from the command line rather than prompting for it.
-#         users:  ek15bnh4OiRhcHIxJGVrNEhnT0Q5JFQ0ZVRvOVVKNXljUjFCaloxVDJEai8KCg==
-#
-#   - apiVersion: traefik.io/v1alpha1
-#     kind: Middleware
-#     metadata:
-#       name: traefik-dashboard-basicauth 
-#       namespace: traefik
-#     spec:
-#       basicAuth:
-#         secret: traefik-dashboard-auth
-#
-#   - apiVersion: traefik.containo.us/v1alpha1
-#     kind: IngressRoute
-#     metadata:
-#       name: traefik-dashboard
-#       namespace: traefik
-#     spec:
-#       entryPoints:
-#         - websecure
-#       routes:
-#         - match: Host(`traefik.tpi2.local') && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
-#           kind: Rule
-#           middlewares:
-#             - name: traefik-dashboard-basicauth 
-#               namespace: traefik
-#           services:
-#             - name: api@internal
-#               kind: TraefikService
-#       tls:
-#         secretName: traefik-cert
-#         certResolver: cloudflare
-#         domains:
-#           - main: traefik.tpi2.local
-#             sans:
-#               - "*.traefik.tpi2.local"
-#
-#   - apiVersion: traefik.io/v1alpha1
-#     kind: Middleware
-#     metadata:
-#       name: common_headers 
-#     spec:
-#       headers:
-#         browserXssFilter: true
-#         contentTypeNosniff: true
-#         forceSTSHeader: true
-#         stsIncludeSubdomains: true
-#         stsPreload: true
-#         stsSeconds: 15552000
-#         customRequestHeaders:
-#           X-Forwarded-Proto: "https"
-#         customFrameOptionsValue: "SAMEORIGIN"
-#
-#
-#   - apiVersion: traefik.io/v1alpha1
-#     kind: Middleware
-#     metadata:
-#       name: common_whitelist 
-#     spec:
-#       ipWhiteList:
-#         sourceRange:
-#           - "192.168.7.0/24"
-#
-#   - apiVersion: traefik.io/v1alpha1
-#     kind: Middleware
-#     metadata:
-#       name: 
-#     spec:
-#       ipWhiteList:
-#         sourceRange:
-#           - "192.168.7.0/24"

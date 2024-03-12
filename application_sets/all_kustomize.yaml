@@ -32,7 +32,7 @@ spec:
       source:
         repoURL: *repo 
         targetRevision: HEAD
-        path: "{{path}}/overlays/production"
+        path: "{{path}}/overlays/prod"
       destination:
         server: https://kubernetes.default.svc
         namespace: "{{path.basename}}"

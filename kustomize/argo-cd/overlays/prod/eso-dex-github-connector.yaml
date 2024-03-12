@@ -20,5 +20,5 @@ spec:
   ## You can get all of the secret content (recommended)
   dataFrom:
   - extract:
-      key: secret/data/github-connector
+      key: secret/github-connector
 

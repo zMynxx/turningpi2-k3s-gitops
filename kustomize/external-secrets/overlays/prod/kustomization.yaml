@@ -24,4 +24,3 @@ namespace: *name
 resources:
 - namespace.yaml 
 - eso-clustersecretstore.yaml
-- username-eso.yaml

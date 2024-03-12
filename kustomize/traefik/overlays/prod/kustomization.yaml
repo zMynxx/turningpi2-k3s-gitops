@@ -32,7 +32,7 @@ namespace: *name
 resources:
 - dashboard-basicauth-middlewere.yaml
 - dashboard-ingressroute.yaml
-- default-headers-middlewere.yaml
+- default-headers-middleware.yaml
 - namespace.yaml
 - eso-cloudflare-secret.yaml
-- eso-traefik-dashboard-auth.yaml
+- eso-dashboard-auth.yaml

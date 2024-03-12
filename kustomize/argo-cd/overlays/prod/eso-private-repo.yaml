@@ -10,7 +10,7 @@ metadata:
     app.kubernetes.io/part-of: argocd
     argocd.argoproj.io/secret-type: repository 
 spec:
-  refreshInterval: 24h
+  refreshInterval: 1h
   secretStoreRef:
     name: vault-cluster-store 
     kind: ClusterSecretStore
@@ -21,4 +21,4 @@ spec:
   ## You can get all of the secret content (recommended)
   dataFrom:
   - extract:
-      key: secret/data/gitops-private-repo
+      key: secret/gitops-private-repo

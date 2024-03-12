@@ -15,5 +15,5 @@ spec:
   ## You can get all of the secret content (recommended)
   dataFrom:
   - extract:
-    key: /secret/data/traefik-dashoard-auth
+    key: /secret/traefik-dashoard-auth
 

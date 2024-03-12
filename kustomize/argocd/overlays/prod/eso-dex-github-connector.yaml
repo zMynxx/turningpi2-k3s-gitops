@@ -9,7 +9,7 @@ metadata:
   labels:
     app.kubernetes.io/part-of: argocd
 spec:
-  refreshInterval: 24h
+  refreshInterval: 1h
   secretStoreRef:
     name: vault-cluster-store 
     kind: ClusterSecretStore

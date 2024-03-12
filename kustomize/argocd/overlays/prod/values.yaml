@@ -776,12 +776,12 @@ controller:
   ## Application controller metrics configuration
   metrics:
     # -- Deploy metrics service
-    enabled: false
+    enabled: true
     # -- Prometheus ServiceMonitor scrapeTimeout. If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.
     scrapeTimeout: ""
     applicationLabels:
       # -- Enables additional labels in argocd_app_labels metric
-      enabled: false
+      enabled: true 
       # -- Additional labels
       labels: []
     service:
@@ -799,7 +799,7 @@ controller:
       portName: http-metrics
     serviceMonitor:
       # -- Enable a prometheus ServiceMonitor
-      enabled: false
+      enabled: true 
       # -- Prometheus ServiceMonitor interval
       interval: 30s
       # -- Prometheus [RelabelConfigs] to apply to samples before scraping
@@ -1414,7 +1414,7 @@ redis:
 
   metrics:
     # -- Deploy metrics service
-    enabled: false
+    enabled: true 
 
     # Redis metrics service configuration
     service:

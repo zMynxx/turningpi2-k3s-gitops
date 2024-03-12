@@ -45,7 +45,7 @@ controllerClass: ""
 
 # -- If true external secrets will use recommended kubernetes
 # annotations as prometheus metric labels.
-extendedMetricLabels: false
+extendedMetricLabels: true
 
 # -- If set external secrets are only reconciled in the
 # provided namespace
@@ -136,7 +136,7 @@ resources: {}
 
 serviceMonitor:
   # -- Specifies whether to create a ServiceMonitor resource for collecting Prometheus metrics
-  enabled: false
+  enabled: true
 
   # -- namespace where you want to install ServiceMonitors
   namespace: ""

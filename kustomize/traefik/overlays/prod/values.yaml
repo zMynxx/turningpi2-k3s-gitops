@@ -97,6 +97,19 @@ logs:
     # -- To enable access logs
     enabled: true 
 
+metrics:
+  ## -- Prometheus is enabled by default.
+  ## -- It can be disabled by setting "prometheus: null"
+  prometheus:
+    # -- Entry point used to expose metrics.
+    entryPoint: metrics
+    ## Enable metrics on entry points. Default=true
+    addEntryPointsLabels: true
+    ## Enable metrics on routers. Default=false
+    addRoutersLabels: true
+    ## Enable metrics on services. Default=true
+    addServicesLabels: true
+
 # -- Environment variables to be passed to Traefik's binary from configMaps or secrets
 # envFrom:
 #   - secretRef:

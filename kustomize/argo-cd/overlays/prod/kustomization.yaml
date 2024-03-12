@@ -12,6 +12,8 @@ helmCharts:
 
 resources:
 - namespace.yaml
+- eso-dex-github-connector.yaml
+- eso-private-repo.yaml
 
 namespace: argo-cd
 patches:

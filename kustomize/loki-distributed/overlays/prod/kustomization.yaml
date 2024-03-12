@@ -4,14 +4,15 @@ kind: Kustomization
 # helmCharts: https://kubectl.docs.kubernetes.io/references/kustomize/builtins/#_helmchartinflationgenerator_
 helmCharts:
 # Use a Helm chart from the official Helm chart repository
-- name: loki-distributed 
+- name: &name loki-distributed 
   version: 0.78.3 
   repo: https://grafana.github.io/helm-charts 
+  releaseName: *name
   valuesFile: values.yaml
-  namespace: loki-distributed 
+  namespace: *name 
   includeCRDs: true
 
-namespace: loki-distributed 
+namespace: *name
 
 # Additonal resources to apply - do not worry about the order if you are using ArgoCD
 resources:

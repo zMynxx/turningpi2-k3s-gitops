@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: longhorn-dashboard 
+  namespace: longhorn
+spec:
+  rules:
+  - host: longhorn.tpi2.local
+    http:
+      paths:
+      - backend:
+          service:
+            name: longhorn-frontend 
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+status:
+  loadBalancer: {}

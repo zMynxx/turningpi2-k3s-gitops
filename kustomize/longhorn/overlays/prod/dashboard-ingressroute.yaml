@@ -1,8 +1,8 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: grafana-dashboard
-  namespace: kube-prometheus-stack
+  name: longhorn-dashboard
+  namespace: longhorn 
 spec:
   entryPoints:
   - web 

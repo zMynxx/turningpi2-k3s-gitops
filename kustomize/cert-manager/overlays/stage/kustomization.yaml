@@ -4,14 +4,15 @@ kind: Kustomization
 # helmCharts: https://kubectl.docs.kubernetes.io/references/kustomize/builtins/#_helmchartinflationgenerator_
 helmCharts:
 # Use a Helm chart from the official Helm chart repository
-- name: cert-manager 
+- name: &name cert-manager 
   version: 1.14.3 
   repo: https://charts.jetstack.io
+  releaseName: *name
   valuesFile: values.yaml
-  namespace: cert-manager 
+  namespace: *name 
   includeCRDs: true
 
-namespace: cert-manager
+namespace: *name
 
 # Additonal resources to apply - do not worry about the order if you are using ArgoCD
 resources:

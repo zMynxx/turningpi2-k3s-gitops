@@ -4,16 +4,17 @@ kind: Kustomization
 # helmCharts: https://kubectl.docs.kubernetes.io/references/kustomize/builtins/#_helmchartinflationgenerator_
 helmCharts:
 # Use a Helm chart from the official Helm chart repository
-- name: longhorn 
+- name: &name longhorn 
   version: 1.6.0 
   repo: https://charts.longhorn.io
+  releaseName: *name
   valuesFile: values.yaml
-  namespace: longhorn 
+  namespace: *name 
   includeCRDs: true
 
-namespace: longhorn 
+namespace: *name 
 
 # Additonal resources to apply - do not worry about the order if you are using ArgoCD
 resources:
 - namespace.yaml 
-- longhorn-dashboard-ingressroute.yaml
+- dashboard-ingress.yaml

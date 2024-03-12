@@ -21,4 +21,4 @@ spec:
   ## You can get all of the secret content (recommended)
   dataFrom:
   - extract:
-      key: secret/gitops-private-repo
+      key: secret/data/gitops-private-repo

@@ -23,6 +23,7 @@ spec:
       syncPolicy:
         syncOptions:
           - Validate=true
+          - ServerSideApply=true
           - PrunePropagationPolicy=Foreground
           - CreateNamespace=true
         automated:
@@ -31,7 +32,7 @@ spec:
           allowEmpty: false
       source:
         repoURL: *repo 
-        targetRevision: HEAD
+        targetRevision: main
         path: "{{path}}/overlays/prod"
       destination:
         server: https://kubernetes.default.svc

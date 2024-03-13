@@ -68,6 +68,15 @@ prometheus:
     # serviceMonitorNamespaceSelector:
     #   matchLabels:
     #     prometheus: somelabel
+    additionalScrapeConfigs:
+    - job_name: integrations/traefik
+      # relabel_configs:
+      #   - replacement: '<your-instance-name>'
+      #     target_label: instance
+      static_configs:
+        - targets: ['traefik.traefik.svc.cluster.local:9100']
+        # - targets: ['.traefik.svc.cluster.local:9100']
+
 
 
 ## Using default values from https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml

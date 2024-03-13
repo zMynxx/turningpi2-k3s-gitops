@@ -16,6 +16,5 @@ namespace: *name
 
 # Additonal resources to apply - do not worry about the order if you are using ArgoCD
 resources:
-- namespace.yaml 
 - dashboard-ingress.yaml
 

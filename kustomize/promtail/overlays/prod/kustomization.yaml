@@ -5,7 +5,7 @@ kind: Kustomization
 helmCharts:
 # Use a Helm chart from the official Helm chart repository
 - name: &name promtail 
-  version: 1.6.0 
+  version: 6.15.5 
   repo: https://grafana.github.io/helm-charts 
   releaseName: *name
   valuesFile: values.yaml

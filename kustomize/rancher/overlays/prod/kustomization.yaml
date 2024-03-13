@@ -9,10 +9,10 @@ helmCharts:
   repo: https://releases.rancher.com/server-charts/stable 
   releaseName: *name
   valuesFile: values.yaml
-  namespace: *name 
+  namespace: &ns cattle-system 
   includeCRDs: true
 #
-namespace: *name 
+namespace: *ns 
 
 # Additonal resources to apply - do not worry about the order if you are using ArgoCD
 resources:

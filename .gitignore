@@ -1,3 +1,4 @@
 **/*.secret.*
 **/unseal.json
 infrastructue/*/overlays/*/charts
+kustomize/*/overlays/*/charts

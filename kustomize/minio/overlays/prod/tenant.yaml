@@ -54,7 +54,7 @@ spec:
         - ReadWriteOnce
         resources:
           requests:
-            storage: "1073741824"
+            storage: 1Gi 
         storageClassName: longhorn 
       status: {}
     volumesPerServer: 1

@@ -14,7 +14,7 @@ additionalArguments:
   - "--log.filePath=/var/log/traefik.log"
   - "--api=true"
   - "--api.insecure=true"
-  - "--api.dashboard=true"
+  # - "--api.dashboard=true"
 
 deployment:
   # -- Enable deployment

@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: grafana-dashboard
 spec:
+  ingressClassName: traefik
   rules:
   - host: grafana.tpi2.local
     http:

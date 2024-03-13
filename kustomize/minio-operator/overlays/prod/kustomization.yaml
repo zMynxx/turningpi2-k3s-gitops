@@ -2,21 +2,20 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 # helmCharts: https://kubectl.docs.kubernetes.io/references/kustomize/builtins/#_helmchartinflationgenerator_
-# helmCharts:
-# # Use a Helm chart from the official Helm chart repository
-# - name: &name kube-prometheus-stack 
-#   version: 56.19.0 
-#   repo: https://prometheus-community.github.io/helm-charts 
-#   releaseName: *name
-#   valuesFile: values.yaml
-#   namespace: *name 
-#   includeCRDs: true
+helmCharts:
+# Use a Helm chart from the official Helm chart repository
+- name: &name rancher 
+  version: 2.8.2 
+  repo: https://releases.rancher.com/server-charts/stable 
+  releaseName: *name
+  valuesFile: values.yaml
+  namespace: *name 
+  includeCRDs: true
 #
-namespace: &name minio-operator
+namespace: *name 
 
 # Additonal resources to apply - do not worry about the order if you are using ArgoCD
 resources:
-# - namespace.yaml 
+- namespace.yaml 
 - dashboard-ingress.yaml
-- operator-v5.yaml 
 

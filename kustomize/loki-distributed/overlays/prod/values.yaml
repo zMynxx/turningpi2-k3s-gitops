@@ -282,7 +282,7 @@ rbac:
 # ServiceMonitor configuration
 serviceMonitor:
   # -- If enabled, ServiceMonitor resources for Prometheus Operator are created
-  enabled: false
+  enabled: true 
   # -- Alternative namespace for ServiceMonitor resources
   namespace: null
   # -- Namespace selector for ServiceMonitor resources
@@ -294,7 +294,9 @@ serviceMonitor:
     #   values:
     #     - "false"
   # -- ServiceMonitor annotations
-  annotations: {}
+  annotations:
+    release: prometheus
+
   # -- Additional ServiceMonitor labels
   labels: {}
   # -- ServiceMonitor scrape interval

@@ -69,8 +69,8 @@ agent:
       value: Asia/Jerusalem
     # - name: DISABLE_AGENT
     #   value: "false"
-    - name: DISABLE_LOCAL_API
-      value: "false"
+    - name: DISABLE_LOCAL_API 
+      value: false
     # - name: DISABLE_ONLINE_API
     #   value: "false"
     # - name: LEVEL_TRACE

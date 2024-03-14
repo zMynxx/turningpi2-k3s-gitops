@@ -62,5 +62,25 @@ kubectl --namespace argocd get secret argocd-initial-admin-secret --output jsonp
 ## Minio
 Fetch Minio admin password:
 ```bash
-kubectl --namespace minio-operatorget secret console-sa-secret -o jsonpath="{.data.token}" | base64 --decode | pbcopy
+kubectl --namespace minio-operator get secret console-sa-secret -o jsonpath="{.data.token}" | base64 --decode | pbcopy
 ```
+
+## Longhorn
+Longhorn is set up to backup into MinIO "backup" bucket (Endpoint: `s3://backup@local/`), credentails are stored in the vault under `/secret/longhorn/aws-secret`.
+These aws credentials are in need of the corresponding IAM policy to be able to access the MinIO bucket:
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "s3:*",
+            "Resource": [
+                "arn:aws:s3:::backup",
+                "arn:aws:s3:::backup/*"
+            ]
+        }
+    ]
+}
+```
+

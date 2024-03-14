@@ -18,4 +18,5 @@ namespace: *name
 resources:
 - namespace.yaml
 - dashboard-ingress.yaml
+- eso-cluster-secret-store.yaml
 # - dashboard-ingressroute.yaml 

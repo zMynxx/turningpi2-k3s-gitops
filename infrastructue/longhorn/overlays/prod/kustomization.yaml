@@ -18,3 +18,4 @@ namespace: *name
 resources:
 - namespace.yaml 
 - dashboard-ingress.yaml
+- eso-aws-secret.yaml

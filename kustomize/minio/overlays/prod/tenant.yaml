@@ -53,7 +53,7 @@ items:
               storage: 10Gi
           storageClassName: nfs-client 
         status: {}
-      volumesPerServer: 1
+      volumesPerServer: 2
     requestAutoCert: false
     users:
     - name: minio-user-0

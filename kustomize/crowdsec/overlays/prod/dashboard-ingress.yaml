@@ -11,9 +11,9 @@ spec:
       paths:
       - backend:
           service:
-            name: crowdsec-lapi 
+            name: crowdsec-service
             port:
-              number: 80
+              number: 8080
         path: /
         pathType: Prefix
 status:

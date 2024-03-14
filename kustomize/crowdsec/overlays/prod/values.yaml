@@ -1,3 +1,22 @@
+# Here you can specify your own custom configuration to be loaded in crowdsec agent or lapi
+# Each config needs to be a multi-line using '|' in YAML specs
+# for the agent those configs will be loaded : parsers, scenarios, postoverflows, simulation.yaml
+# for the lapi those configs will be loaded : profiles.yaml, notifications, console.yaml
+config:
+  # -- to better understand how to write a postoverflow, you can take a look at (https://docs.crowdsec.net/docs/next/whitelist/create/#whitelist-in-postoverflows)
+  postoverflows:
+    s01-whitelist:
+      localips.yaml: |
+        name: crowdsecurity/whitelists
+        description: "Whitelist events from private ipv4 addresses"
+        whitelist:
+          reason: "private ipv4/ipv6 ip/ranges"
+          ip: 
+            - "127.0.0.1"
+            - "::1"
+          cidr:
+            - "192.168.7.0/24"
+
 # agent will deploy pod on every node as daemonSet to read wanted pods logs
 agent:
   # -- To add custom acquisitions using available datasources (https://docs.crowdsec.net/docs/next/data_sources/intro)
@@ -50,26 +69,17 @@ agent:
     # - name: LEVEL_DEBUG
     #   value: "false"
     # - name: LEVEL_INFO
-    #   value: "false"
+    #   value: "false"  
 
-# Here you can specify your own custom configuration to be loaded in crowdsec agent or lapi
-# Each config needs to be a multi-line using '|' in YAML specs
-# for the agent those configs will be loaded : parsers, scenarios, postoverflows, simulation.yaml
-# for the lapi those configs will be loaded : profiles.yaml, notifications, console.yaml
-config:
-  # -- to better understand how to write a postoverflow, you can take a look at (https://docs.crowdsec.net/docs/next/whitelist/create/#whitelist-in-postoverflows)
-  postoverflows:
-    s01-whitelist:
-      localips.yaml: |
-        name: crowdsecurity/whitelists
-        description: "Whitelist events from private ipv4 addresses"
-        whitelist:
-          reason: "private ipv4/ipv6 ip/ranges"
-          ip: 
-            - "127.0.0.1"
-            - "::1"
-          cidr:
-            - "192.168.7.0/24"
+  # -- Enable service monitoring (exposes "metrics" port "6060" for Prometheus)
+  metrics:
+    enabled: true 
+    # -- Creates a ServiceMonitor so Prometheus will monitor this service
+    # -- Prometheus needs to be configured to watch on all namespaces for ServiceMonitors
+    # -- See the documentation: https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack#prometheusioscrape
+    # -- See also: https://github.com/prometheus-community/helm-charts/issues/106#issuecomment-700847774
+    serviceMonitor:
+      enabled: true 
 
 # lapi will deploy pod with crowdsec lapi and dashboard as deployment
 lapi:
@@ -102,7 +112,15 @@ lapi:
       ingressClassName: "traefik"
       host: "crowdsec.tpi2.local" 
       # tls: {}
-
+  # -- Enable service monitoring (exposes "metrics" port "6060" for Prometheus)
+  metrics:
+    enabled: true 
+    # -- Creates a ServiceMonitor so Prometheus will monitor this service
+    # -- Prometheus needs to be configured to watch on all namespaces for ServiceMonitors
+    # -- See the documentation: https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack#prometheusioscrape
+    # -- See also: https://github.com/prometheus-community/helm-charts/issues/106#issuecomment-700847774
+    serviceMonitor:
+      enabled: true 
 
 # Default values for crowdsec-chart.
 # This is a YAML-formatted file.

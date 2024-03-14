@@ -39,8 +39,8 @@ agent:
     #   value: "Labels.type_for_time-machine_mode"
     # - name: TEST_MODE
     #   value: "false"
-    # - name: TZ
-    #   value: ""
+    - name: TZ
+      value: Asia/Jerusalem
     # - name: DISABLE_AGENT
     #   value: "false"
     # - name: DISABLE_ONLINE_API
@@ -93,7 +93,7 @@ lapi:
 
   dashboard:
     # -- Enable Metabase Dashboard (by default disabled)
-    enabled: false
+    enabled: true 
     # -- Enable ingress object
     ingress:
       enabled: false 

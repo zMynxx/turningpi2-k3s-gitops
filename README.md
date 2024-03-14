@@ -43,9 +43,9 @@ This repository contains the manifests needed to constuct my home kubernetes clu
 ## Folder Structure
 ```bash
 .
-|-- app_of_apps      # AppOfApps manifests directory, to apply all the applications manifest it finds. 
-|-- app_project      # AppProject manifests directory, to set permissions and roles per project.
-|-- application_sets # Applications manifest generator.
+├── app_of_apps      # AppOfApps manifests directory, to apply all the applications manifest it finds. 
+├── app_project      # AppProject manifests directory, to set permissions and roles per project.
+├── application_sets # Applications manifest generator.
 ├── applications     # Applications manifest for special cases.
 ├── infrastructure   # Infrastructure related resources like metallb, longhorn, etc.
 ├── kustomization    # Kustomization files for the applications.

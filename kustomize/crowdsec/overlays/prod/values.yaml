@@ -55,10 +55,10 @@ agent:
       value: "crowdsecurity/traefik"
     - name: TZ
       value: Asia/Jerusalem
-    # - name: DISABLE_LOCAL_API 
-    #   value: false
-# - name: DISABLE_AGENT
-#   value: "false"
+    - name: DISABLE_LOCAL_API 
+      value: false
+    - name: DISABLE_AGENT
+      value: "false"
 # - name: DISABLE_PARSERS
 #   value: "crowdsecurity/whitelist"
 # - name: POSTOVERFLOWS
@@ -94,6 +94,8 @@ lapi:
       value: "k3s-cluster"
     - name: ENROLL_TAGS
       value: "TEST"
+    - name: LOCAL_API_URL
+      value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
 
   # -- Enable ingress lapi object
   ingress:

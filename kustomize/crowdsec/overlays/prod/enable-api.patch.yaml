@@ -1,3 +1,14 @@
-- op: replace #action 
-  path: /spec/env/0/value #resouirce we want to change
-  value: false # value we want to use for patching 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crowdsec-lapi
+  namespace: crowdsec
+spec:
+  template:
+    spec:
+      containers:
+      - env:
+        - name: LOCAL_API_URL
+          value: http://crowdsec-service.crowdsec.svc.cluster.local:8080
+        - name: DISABLE_AGENT
+          value: "false"

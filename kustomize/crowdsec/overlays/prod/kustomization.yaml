@@ -20,17 +20,5 @@ resources:
 - dashboard-ingress.yaml
 
 patches:
-- path: enable-api.patch.yaml
-  target:
-    group: apps
-    version: v1
-    kind: DeamonSet 
-    name: crowdsec-agent
-    namespace: *name
-- path: local-url.patch.yaml 
-  target:
-    group: apps
-    version: v1
-    kind: Deployment 
-    name: crowdsec-lapi
-    namespace: *name
+- enable-api.patch.yaml
+- local-url.patch.yaml

@@ -19,3 +19,5 @@ resources:
 - namespace.yaml 
 - dashboard-ingress.yaml
 - eso-aws-secret.yaml
+- recurring-backup.yaml
+- recurring-snapshot.yaml

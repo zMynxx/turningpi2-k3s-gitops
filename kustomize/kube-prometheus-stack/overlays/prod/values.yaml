@@ -76,6 +76,12 @@ prometheus:
       static_configs:
         - targets: ['traefik.traefik.svc.cluster.local:9100']
         # - targets: ['.traefik.svc.cluster.local:9100']
+    - job_name: minio-job
+      # bearer_token: TOKEN
+      metrics_path: /minio/v2/metrics/cluster
+      scheme: https
+      static_configs:
+      - targets: ['minio.minio.svc.cluster.local:80']
 
 
 

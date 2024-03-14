@@ -94,8 +94,6 @@ lapi:
       value: "k3s-cluster"
     - name: ENROLL_TAGS
       value: "TEST"
-    - name: LOCAL_API_URL
-      value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
 
   # -- Enable ingress lapi object
   ingress:

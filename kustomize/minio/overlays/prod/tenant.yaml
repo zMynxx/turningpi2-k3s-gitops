@@ -67,12 +67,8 @@ items:
 - apiVersion: minio.min.io/v2
   kind: Tenant
   metadata:
-    creationTimestamp: "2024-03-13T15:13:43Z"
-    generation: 1
     name: minio
     namespace: minio
-    resourceVersion: "989976"
-    uid: 517bc8b2-bf99-427f-a51c-0f0ee56907f2
   scheduler:
     name: ""
   spec:
@@ -125,19 +121,6 @@ items:
     requestAutoCert: false
     users:
     - name: minio-user-0
-  status:
-    availableReplicas: 0
-    certificates:
-      autoCertEnabled: false
-      customCertificates: {}
-    currentState: Provisioning initial users
-    pools:
-    - legacySecurityContext: false
-      ssName: minio-pool-0
-      state: PoolInitialized
-    revision: 0
-    syncVersion: v5.0.0
-    usage: {}
 kind: List
 metadata:
   resourceVersion: ""

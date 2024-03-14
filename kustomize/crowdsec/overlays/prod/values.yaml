@@ -53,32 +53,26 @@ agent:
       value: "crowdsecurity/cri-logs"
     - name: COLLECTIONS
       value: "crowdsecurity/traefik"
-    # - name: DISABLE_PARSERS
-    #   value: "crowdsecurity/whitelist"
-    # - name: POSTOVERFLOWS
-    #   value: "postoverflow/name otherPostoverflow/name"
-    # - name: CONFIG_FILE
-    #   value: "/etc/crowdsec/config.yaml"
-    # - name: DSN
-    #   value: "file:///var/log/toto.log"
-    # - name: TYPE
-    #   value: "Labels.type_for_time-machine_mode"
-    # - name: TEST_MODE
-    #   value: "false"
     - name: TZ
       value: Asia/Jerusalem
-    # - name: DISABLE_AGENT
-    #   value: "false"
     - name: DISABLE_LOCAL_API 
       value: false
-    # - name: DISABLE_ONLINE_API
-    #   value: "false"
-    # - name: LEVEL_TRACE
-    #   value: "false"
-    # - name: LEVEL_DEBUG
-    #   value: "false"
-    # - name: LEVEL_INFO
-    #   value: "false"  
+# - name: DISABLE_AGENT
+#   value: "false"
+# - name: DISABLE_PARSERS
+#   value: "crowdsecurity/whitelist"
+# - name: POSTOVERFLOWS
+#   value: "postoverflow/name otherPostoverflow/name"
+# - name: CONFIG_FILE
+#   value: "/etc/crowdsec/config.yaml"
+# - name: DISABLE_ONLINE_API
+#   value: "false"
+# - name: LEVEL_TRACE
+#   value: "false"
+# - name: LEVEL_DEBUG
+#   value: "false"
+# - name: LEVEL_INFO
+#   value: "false"  
 
   # -- Enable service monitoring (exposes "metrics" port "6060" for Prometheus)
   metrics:

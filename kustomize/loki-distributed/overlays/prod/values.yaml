@@ -320,7 +320,7 @@ serviceMonitor:
 # Rules for the Prometheus Operator
 prometheusRule:
   # -- If enabled, a PrometheusRule resource for Prometheus Operator is created
-  enabled: false
+  enabled: true 
   # -- Alternative namespace for the PrometheusRule resource
   namespace: null
   # -- PrometheusRule annotations

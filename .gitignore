@@ -1,5 +1,6 @@
 **/*.secret.*
 **/unseal.json
 infrastructue/*/overlays/*/charts
-kustomize/*/overlays/*/charts
-!kustomize/rancher/overlays/*/charts
+#kustomize/*/overlays/*/charts
+#!kustomize/rancher/overlays/*/charts
+AppRole

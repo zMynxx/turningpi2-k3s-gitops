@@ -1,0 +1,20 @@
+{{- if eq .Values.COLLABORA_ENABLED "yes" }}
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c -f latest.yml --namespace "{{ .Values.NAMESPACE }}"
+    kompose.version: 1.32.0 (765fde254)
+  labels:
+    io.kompose.service: nextcloud-aio-collabora
+  name: nextcloud-aio-collabora
+  namespace: "{{ .Values.NAMESPACE }}"
+spec:
+  ipFamilyPolicy: PreferDualStack
+  ports:
+    - name: "9980"
+      port: 9980
+      targetPort: 9980
+  selector:
+    io.kompose.service: nextcloud-aio-collabora
+{{- end }}

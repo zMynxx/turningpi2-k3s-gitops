@@ -47,8 +47,6 @@ spec:
           # agent - lapi authentication, with TLS or password
 
           {{- if .Values.tls.enabled }}
-          - name: LOCAL_API_URL
-            value: https://{{ .Release.Name }}-service.{{ .Release.Namespace }}:8080
           - name: USE_TLS
             value: "true"
           {{- if .Values.tls.agent.tlsClientAuth }}
@@ -62,8 +60,6 @@ spec:
             value: /etc/ssl/crowdsec-agent/ca.crt
           {{- end }}
           {{- else }}
-          - name: LOCAL_API_URL
-            value: http://{{ .Release.Name }}-service.{{ .Release.Namespace }}:8080
           {{- end }}
           {{- if or (not .Values.tls.enabled) (not .Values.tls.agent.tlsClientAuth) }}
           - name: AGENT_USERNAME

@@ -95,7 +95,7 @@ lapi:
     - name: DISABLE_LOCAL_API 
       value: "false"
     - name: LOCAL_API_URL
-      value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
+      value: "http://localhost:8080"
     - name: ENROLL_KEY
       value: "cltei31sq0000jx083w246vz7"
     - name: ENROLL_INSTANCE_NAME

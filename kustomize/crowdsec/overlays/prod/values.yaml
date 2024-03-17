@@ -49,16 +49,18 @@ agent:
     # by default we disable local API on the agent pod
     # - name: SCENARIOS
     #   value: "scenario/name otherScenario/name"
+    - name: DISABLE_AGENT
+      value: "false"
+    - name: DISABLE_LOCAL_API 
+      value: "false"
+    - name: LOCAL_API_URL
+      value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
     - name: PARSERS
       value: "crowdsecurity/cri-logs"
     - name: COLLECTIONS
       value: "crowdsecurity/traefik"
     - name: TZ
       value: Asia/Jerusalem
-    - name: DISABLE_LOCAL_API 
-      value: false
-    - name: DISABLE_AGENT
-      value: "false"
 # - name: DISABLE_PARSERS
 #   value: "crowdsecurity/whitelist"
 # - name: POSTOVERFLOWS
@@ -88,14 +90,18 @@ agent:
 lapi:
   # -- environment variables from crowdsecurity/crowdsec docker image
   env: 
+    - name: DISABLE_AGENT
+      value: "false"
+    - name: DISABLE_LOCAL_API 
+      value: "false"
+    - name: LOCAL_API_URL
+      value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
     - name: ENROLL_KEY
       value: "cltei31sq0000jx083w246vz7"
     - name: ENROLL_INSTANCE_NAME
       value: "k3s-cluster"
     - name: ENROLL_TAGS
       value: "TEST"
-    - name: LOCAL_API_URL
-      value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
 
   # -- Enable ingress lapi object
   ingress:

@@ -1,12 +1,15 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+helmGlobals:
+  chartHome: ./charts/
+
 # helmCharts: https://kubectl.docs.kubernetes.io/references/kustomize/builtins/#_helmchartinflationgenerator_
 helmCharts:
 # Use a Helm chart from the official Helm chart repository
 - name: &name crowdsec 
   version: 0.9.12 
-  repo: https://crowdsecurity.github.io/helm-charts
+  # repo: https://crowdsecurity.github.io/helm-charts
   releaseName: *name
   valuesFile: values.yaml
   namespace: *name
@@ -19,6 +22,62 @@ resources:
 - namespace.yaml 
 - dashboard-ingress.yaml
 
-patches:
-- enable-api.patch.yaml
-- local-url.patch.yaml
+# patches:
+# - patch: |
+#     - op: replace
+#       path: /spec/template/spec/containers/0/env/1
+#       value: 
+#         name: LOCAL_API_URL
+#         value: http://crowdsec-service.crowdsec.svc.cluster.local:8080
+#   target:
+#     kind: Deployment
+#     name: crowdsec-lapi
+#     namespace: crowdsec
+# - patch: |-
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     metadata:
+#       name: crowdsec-lapi
+#       namespace: crowdsec 
+#     spec:
+#       template:
+#         spec:
+#           containers:
+#           - name: crowdsec-lapi 
+#             env:
+#               - name: LOCAL_API_URL 
+#                 value: http://crowdsec-service.crowdsec.svc.cluster.local:8080
+#               - name: DISABLE_AGENT
+#                 value: "false"
+
+# - patch: |-
+#     apiVersion: apps/v1
+#     kind: DaemonSet
+#     metadata:
+#       name: crowdsec-agent 
+#       namespace: crowdsec 
+#     spec:
+#       template:
+#         spec:
+#           containers:
+#           - name: crowdsec-agent 
+#             env:
+#               - name: DISABLE_LOCAL_API
+#                 value: "false"
+#               - name: LOCAL_API_URL 
+#                 value: http://crowdsec-service.crowdsec.svc.cluster.local:8080
+#
+  # - enable-api.patch.yaml
+  # target:
+  #   group: apps
+  #   version: v1
+  #   kind: Deployment
+  #   name: crowdsec-lapi
+  #   namespace: crowdsec
+# - path: local-url.patch.yaml
+#   target:
+#     group: apps
+#     version: v1
+#     kind: DeaemonSet 
+#     name: crowdsec-agent
+#     namespace: crowdsec

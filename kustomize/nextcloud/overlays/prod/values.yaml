@@ -482,7 +482,7 @@ affinity:
           - key: app.kubernetes.io/name
             operator: In
             values:
-            - app.kubernetes.io/name: nextcloud 
+            - nextcloud 
         topologyKey: kubernetes.io/hostname
 
 

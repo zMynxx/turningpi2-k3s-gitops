@@ -1,14 +1,14 @@
-DATABASE_PASSWORD: admin # TODO! This needs to be a unique and good password!
-FULLTEXTSEARCH_PASSWORD: admin 
-NC_DOMAIN: nextcloud.tpi.local # TODO! Needs to be changed to the domain that you want to use for Nextcloud.
-NEXTCLOUD_PASSWORD: admin          # TODO! This is the password of the initially created Nextcloud admin with username admin.
-ONLYOFFICE_SECRET: admin          # TODO! This needs to be a unique and good password!
-RECORDING_SECRET: admin          # TODO! This needs to be a unique and good password!
-REDIS_PASSWORD: admin          # TODO! This needs to be a unique and good password!
-SIGNALING_SECRET: admin          # TODO! This needs to be a unique and good password!
-TALK_INTERNAL_SECRET: admin          # TODO! This needs to be a unique and good password!
-TIMEZONE: Asia/Jerusalem # TODO! This is the timezone that your containers will use.
-TURN_SECRET: admin           # TODO! This needs to be a unique and good password!
+DATABASE_PASSWORD:           # TODO! This needs to be a unique and good password!
+FULLTEXTSEARCH_PASSWORD:           # TODO! This needs to be a unique and good password!
+NC_DOMAIN: yourdomain.com          # TODO! Needs to be changed to the domain that you want to use for Nextcloud.
+NEXTCLOUD_PASSWORD:           # TODO! This is the password of the initially created Nextcloud admin with username admin.
+ONLYOFFICE_SECRET:           # TODO! This needs to be a unique and good password!
+RECORDING_SECRET:           # TODO! This needs to be a unique and good password!
+REDIS_PASSWORD:           # TODO! This needs to be a unique and good password!
+SIGNALING_SECRET:           # TODO! This needs to be a unique and good password!
+TALK_INTERNAL_SECRET:           # TODO! This needs to be a unique and good password!
+TIMEZONE: Europe/Berlin          # TODO! This is the timezone that your containers will use.
+TURN_SECRET:           # TODO! This needs to be a unique and good password!
 
 CLAMAV_ENABLED: "no"          # Setting this to "yes" (with quotes) enables the option in Nextcloud automatically.
 COLLABORA_ENABLED: "no"          # Setting this to "yes" (with quotes) enables the option in Nextcloud automatically.
@@ -34,7 +34,7 @@ REMOVE_DISABLED_APPS: yes        # Setting this to no keep Nextcloud apps that a
 TALK_PORT: 3478          # This allows to adjust the port that the talk container is using.
 UPDATE_NEXTCLOUD_APPS: no          # When setting to yes (with quotes), it will automatically update all installed Nextcloud apps upon container startup on saturdays.
 
-STORAGE_CLASS: nfs-client      # By setting this, you can adjust the storage class for your volumes
+STORAGE_CLASS:        # By setting this, you can adjust the storage class for your volumes
 APACHE_STORAGE_SIZE: 1Gi       # You can change the size of the apache volume that default to 1Gi with this value
 CLAMAV_STORAGE_SIZE: 1Gi       # You can change the size of the clamav volume that default to 1Gi with this value
 DATABASE_STORAGE_SIZE: 1Gi       # You can change the size of the database volume that default to 1Gi with this value
@@ -46,7 +46,7 @@ NEXTCLOUD_TRUSTED_CACERTS_STORAGE_SIZE: 1Gi       # You can change the size of t
 ONLYOFFICE_STORAGE_SIZE: 1Gi       # You can change the size of the onlyoffice volume that default to 1Gi with this value
 REDIS_STORAGE_SIZE: 1Gi       # You can change the size of the redis volume that default to 1Gi with this value
 
-NAMESPACE: nextcloud # By changing this, you can adjust the namespace of the installation which allows to install multiple instances on one kubernetes cluster
+NAMESPACE: default        # By changing this, you can adjust the namespace of the installation which allows to install multiple instances on one kubernetes cluster
 SUBSCRIPTION_KEY:        # This allows to set the Nextcloud Enterprise key via ENV
 SERVERINFO_TOKEN:        # This allows to set the serverinfo app token for monitoring your Nextcloud via the serverinfo app
 APPS_ALLOWLIST:        # This allows to configure allowed apps that will be shown in Nextcloud's Appstore. You need to enter the app-IDs of the apps here and separate them with spaces. E.g. 'files richdocuments'

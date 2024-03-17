@@ -6,8 +6,8 @@ kind: Kustomization
 helmCharts:
 # Use a Helm chart from the official Helm chart repository
 - name: &name nextcloud 
-  version: 4.6.4 
-  repo: https://nextcloud.github.io/helm/
+  version: 7.13.1 
+  repo: https://nextcloud.github.io/all-in-one/
   releaseName: *name
   valuesFile: values.yaml
   namespace: *name

@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c -f latest.yml --namespace "{{ .Values.NAMESPACE }}"
+    kompose.version: 1.32.0 (765fde254)
+  labels:
+    io.kompose.service: nextcloud-aio-redis
+  name: nextcloud-aio-redis
+  namespace: "{{ .Values.NAMESPACE }}"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: nextcloud-aio-redis
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -c -f latest.yml --namespace "{{ .Values.NAMESPACE }}"
+        kompose.version: 1.32.0 (765fde254)
+      labels:
+        io.kompose.network/nextcloud-aio: "true"
+        io.kompose.service: nextcloud-aio-redis
+    spec:
+      initContainers:
+        - name: init-volumes
+          image: alpine
+          command:
+            - chmod
+            - "777"
+            - /nextcloud-aio-redis
+          volumeMounts:
+            - name: nextcloud-aio-redis
+              mountPath: /nextcloud-aio-redis
+      containers:
+        - env:
+            - name: REDIS_HOST_PASSWORD
+              value: "{{ .Values.REDIS_PASSWORD }}"
+            - name: TZ
+              value: "{{ .Values.TIMEZONE }}"
+          image: nextcloud/aio-redis:20240308_092935-latest
+          name: nextcloud-aio-redis
+          ports:
+            - containerPort: 6379
+              protocol: TCP
+          securityContext:
+            capabilities:
+              drop:
+                - NET_RAW
+          volumeMounts:
+            - mountPath: /data
+              name: nextcloud-aio-redis
+      volumes:
+        - name: nextcloud-aio-redis
+          persistentVolumeClaim:
+            claimName: nextcloud-aio-redis

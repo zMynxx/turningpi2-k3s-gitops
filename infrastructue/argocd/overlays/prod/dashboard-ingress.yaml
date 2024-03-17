@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: argocd-dashboard 
   namespace: argocd
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: crowdsec-traefik-bouncer-crowdsec-traefik-bouncer@kubernetescrd
 spec:
   ingressClassName: traefik
   rules:

@@ -5,7 +5,7 @@ kind: Kustomization
 helmCharts:
 # Use a Helm chart from the official Helm chart repository
 - name: &name crowdsec-traefik-bouncer
-  version: 0.1.3 
+  version: 0.1.4 
   repo: https://crowdsecurity.github.io/helm-charts
   releaseName: *name
   valuesFile: values.yaml

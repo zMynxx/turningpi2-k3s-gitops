@@ -4,7 +4,7 @@ metadata:
   name: traefik-dashboard-auth 
   namespace: traefik 
 spec:
-  refreshInterval: 24h
+  refreshInterval: 1h
   secretStoreRef:
     name: vault-cluster-store 
     kind: ClusterSecretStore

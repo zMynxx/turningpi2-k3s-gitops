@@ -15,6 +15,9 @@ additionalArguments:
   - "--api=true"
   - "--api.insecure=true"
   # - "--api.dashboard=true"
+  # Enable these only after crowdsec, crowdsec-traefik-bouncer 
+  - "--entrypoints.web.http.middlewares=crowdsec-traefik-bouncer-crowdsec-traefik-bouncer@kubernetescrd"
+  - "--entrypoints.websecure.http.middlewares=crowdsec-traefik-bouncer-crowdsec-traefik-bouncer@kubernetescrd"
 
 deployment:
   # -- Enable deployment

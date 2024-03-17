@@ -7,6 +7,6 @@ bouncer:
   # -- bouncer api key (need to be generated from crowdsec agent)
   # -- to generate a new api key, you can use the following command : 
   # cscli bouncers add crowdsec-traefik-bouncer
-  crowdsec_bouncer_api_key: "YOUR_API_KEY"
+  crowdsec_bouncer_api_key: "z0WCqAqZrotwVBTmTpHwiLIbBrIM1qM1/TGAKncQOdU"
   # -- crowdsec lapi host (ie: crowdsec-service.crowdsec.svc.cluster.local:8080)
   crowdsec_agent_host: "crowdsec-service.crowdsec.svc.cluster.local:8080"

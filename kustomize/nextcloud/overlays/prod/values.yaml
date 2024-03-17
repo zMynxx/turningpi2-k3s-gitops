@@ -463,7 +463,7 @@ startupProbe:
 ## ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
 ##
 hpa:
-  enabled: true 
+  enabled: false 
   cputhreshold: 60
   minPods: 3
   maxPods: 5
@@ -482,7 +482,7 @@ affinity:
           - key: app.kubernetes.io/name
             operator: In
             values:
-            - app.kubernetes.io/name: '{{ template "nextcloud.name" . }}'
+            - app.kubernetes.io/name: nextcloud 
         topologyKey: kubernetes.io/hostname
 
 

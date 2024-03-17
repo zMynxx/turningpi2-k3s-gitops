@@ -12,7 +12,7 @@ spec:
           service:
             name: nextcloud 
             port:
-              number: 9090
+              number: 8080
         path: /
         pathType: Prefix
 status:

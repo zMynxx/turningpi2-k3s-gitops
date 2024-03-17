@@ -463,24 +463,35 @@ startupProbe:
 ## ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
 ##
 hpa:
-  enabled: false
+  enabled: true 
   cputhreshold: 60
-  minPods: 1
-  maxPods: 10
+  minPods: 3
+  maxPods: 5
 
 nodeSelector: {}
 
 tolerations: []
 
-affinity: {}
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/name
+            operator: In
+            values:
+            - app.kubernetes.io/name: '{{ template "nextcloud.name" . }}'
+        topologyKey: kubernetes.io/hostname
 
 
 ## Prometheus Exporter / Metrics
 ##
 metrics:
-  enabled: false
+  enabled: true 
 
-  replicaCount: 1
+  replicaCount: 2
   # The metrics exporter needs to know how you serve Nextcloud either http or https
   https: false
   # Use API token if set, otherwise fall back to password authentication
@@ -489,7 +500,7 @@ metrics:
   token: ""
   timeout: 5s
   # if set to true, exporter skips certificate verification of Nextcloud server.
-  tlsSkipVerify: false
+  tlsSkipVerify: true 
 
   image:
     repository: xperimental/nextcloud-exporter
@@ -523,7 +534,7 @@ metrics:
   serviceMonitor:
     ## @param metrics.serviceMonitor.enabled Create ServiceMonitor Resource for scraping metrics using PrometheusOperator
     ##
-    enabled: false
+    enabled: true 
 
     ## @param metrics.serviceMonitor.namespace Namespace in which Prometheus is running
     ##

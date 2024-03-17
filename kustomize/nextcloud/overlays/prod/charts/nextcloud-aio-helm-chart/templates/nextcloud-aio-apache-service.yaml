@@ -9,9 +9,9 @@ metadata:
   name: nextcloud-aio-apache
   namespace: "{{ .Values.NAMESPACE }}"
 spec:
-  ipFamilyPolicy: PreferDualStack
+  # ipFamilyPolicy: PreferDualStack
   type: ClusterIP 
-  externalTrafficPolicy: Local
+  # externalTrafficPolicy: Local
   ports:
     - name: "{{ .Values.APACHE_PORT }}"
       port: {{ .Values.APACHE_PORT }}

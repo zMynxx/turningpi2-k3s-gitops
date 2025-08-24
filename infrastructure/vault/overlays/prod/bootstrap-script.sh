@@ -16,24 +16,24 @@ NAMESPACE='vault'
 confirm_step() {
   read -p "Do you want to proceed with $1? (Yes/No): " response
   case $response in
-    [yY]|[yY][eE][sS])
-      return 0 # Proceed
-      ;;
-    *)
-      return 1 # Skip
-      ;;
+  [yY] | [yY][eE][sS])
+    return 0 # Proceed
+    ;;
+  *)
+    return 1 # Skip
+    ;;
   esac
 }
 
 echo "Initializing Vault..."
 if confirm_step "initializing Vault"; then
-  kubectl --namespace $NAMESPACE exec --stdin=true --tty=true pod/vault-0 -- vault operator init -key-shares=$NUMKEYS -key-threshold=$THRESHOLD -format=json > $KEY_FILE
+  kubectl --namespace $NAMESPACE exec --stdin=true --tty=true pod/vault-0 -- vault operator init -key-shares=$NUMKEYS -key-threshold=$THRESHOLD -format=json >$KEY_FILE
   echo "Vault initialized successfully"
 fi
 
-echo "Unsealing Vault-0..." 
+echo "Unsealing Vault-0..."
 if confirm_step "unsealing Vault-0"; then
-  for key in $(seq 0 $((THRESHOLD-1))); do
+  for key in $(seq 0 $((THRESHOLD - 1))); do
     kubectl --namespace $NAMESPACE exec --stdin=true --tty=true pod/vault-0 -- vault operator unseal $(jq -r ".unseal_keys_b64[$key]" $KEY_FILE)
   done
   echo "Vault-0 unsealed successfully"
@@ -50,7 +50,7 @@ fi
 echo "Unsealing Vault..."
 if confirm_step "unsealing Vault"; then
   for node in $(seq 1 2); do
-    for key in $(seq 0 $((THRESHOLD-1))); do
+    for key in $(seq 0 $((THRESHOLD - 1))); do
       kubectl --namespace $NAMESPACE exec --stdin=true --tty=true pod/vault-$node -- vault operator unseal $(jq -r ".unseal_keys_b64[$key]" $KEY_FILE)
     done
   done
@@ -59,7 +59,7 @@ fi
 
 echo "Logging into Vault, Generating ReadOnly & ReadWrite Policies, and the External-Secerts-Operator AppRole..."
 if confirm_step "logging into Vault"; then
-  PASSWORD=$(jq -r '.root_token' $KEY_FILE) 
+  PASSWORD=$(jq -r '.root_token' $KEY_FILE)
   kubectl --namespace $NAMESPACE exec --stdin=true --tty=true pod/vault-0 -- /bin/sh -c "\
     vault login $PASSWORD; \
     vault secrets enable -version=2 -path=secret kv; \
@@ -87,7 +87,7 @@ fi
 echo "Creating Secret..."
 if confirm_step "creating Secret"; then
   echo "Update ClusterSecretStore..."
-  yq -i ".spec.provider.vault.auth.appRole.roleId = $(yq 'select(documentindex==1) | .data.secret_id' $OUTPUT)" ./eso-clustersecretstore.yaml
+  yq -i ".spec.provider.vault.auth.appRole.roleId = $(yq 'select(documentindex==1) | .data.secret_id' $OUTPUT)" ./eso-cluster-secret-store.yaml
 
   echo "Creating Secret..."
   kubectl --namespace $NAMESPACE create secret generic vault-secret \

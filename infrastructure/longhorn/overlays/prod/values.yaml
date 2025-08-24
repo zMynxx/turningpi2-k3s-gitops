@@ -451,7 +451,7 @@ ingress:
 enablePSP: false
 
 # -- Specify override namespace, specifically this is useful for using longhorn as sub-chart and its release namespace is not the `longhorn-system`.
-namespaceOverride: longhorn
+namespaceOverride: longhorn-system
 
 # -- Annotation for the Longhorn Manager DaemonSet pods. This setting is optional.
 annotations: {}

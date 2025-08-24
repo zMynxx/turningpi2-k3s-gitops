@@ -1,12 +1,12 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: kustomize-applicationset 
+  name: kustomize-applicationset
   namespace: argocd
 spec:
   generators:
     - git:
-        repoURL: &repo git@github.com:zMynxx/turningpi2-k3s-gitops.git 
+        repoURL: &repo https://github.com/zMynxx/turningpi2-k3s-gitops.git
         revision: HEAD
         directories:
           - path: kustomize/*
@@ -19,7 +19,7 @@ spec:
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:
-      project: production 
+      project: production
       syncPolicy:
         syncOptions:
           - Validate=true
@@ -31,7 +31,7 @@ spec:
           selfHeal: true
           allowEmpty: false
       source:
-        repoURL: *repo 
+        repoURL: *repo
         targetRevision: main
         path: "{{path}}/overlays/prod/"
       destination:

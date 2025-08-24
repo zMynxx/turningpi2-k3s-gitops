@@ -7,6 +7,6 @@ namespace: &name minio
 resources:
   - namespace.yaml
   - tenant.yaml
-  - minio-secrt.yaml
+  - minio-secret.yaml
   - minio-user-0.yaml
   - minio-env-configuration.yaml

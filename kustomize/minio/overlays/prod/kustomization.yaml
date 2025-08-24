@@ -5,6 +5,8 @@ namespace: &name minio
 
 # Additonal resources to apply - do not worry about the order if you are using ArgoCD
 resources:
-- namespace.yaml
-- tenant.yaml 
-
+  - namespace.yaml
+  - tenant.yaml
+  - minio-secrt.yaml
+  - minio-user-0.yaml
+  - minio-env-configuration.yaml

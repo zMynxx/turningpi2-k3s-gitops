@@ -6,7 +6,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: production 
+  project: production
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
@@ -14,10 +14,10 @@ spec:
       prune: true
       selfHeal: true
       allowEmpty: false
-  source: 
+  source:
     repoURL: https://github.com/zMynxx/turningpi2-k3s-gitops.git
     targetRevision: HEAD
-    path: values/prod/argo-cd
+    path: kustomize/argocd/overlays/prod
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd

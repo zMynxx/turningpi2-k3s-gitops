@@ -1,7 +1,0 @@
-apiVersion: v2
-appVersion: 0.5.0
-description: A http service to verify request and bounce them according to decisions
-  made by CrowdSec.
-name: crowdsec-traefik-bouncer
-type: application
-version: 0.1.3

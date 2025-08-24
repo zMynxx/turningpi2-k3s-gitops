@@ -14,12 +14,12 @@ spec:
       policies:
         - p, proj:production:devops, applications, *, production/*, allow
 
-
   # Project description
   description: production environment
 
   # Allow manifests to deploy from out GitOps repos.
   sourceRepos:
+    - https://github.com/zMynxx/turningpi2-k3s-gitops.git
     - git@github.com:zMynxx/turningpi2-k3s-gitops.git
 
   destinations:

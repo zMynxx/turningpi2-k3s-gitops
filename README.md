@@ -1,8 +1,8 @@
-# turningpi2-k3s-gitops
-A GitOps repository for deployment to my k3s setup on turingpi2 using ArgoCD.
+# turningpi2-talos-gitops
+A GitOps repository for deployment to my talos setup on turingpi2 using ArgoCD.
 
 ## Introduction
-This repository contains the manifests needed to constuct my home kubernetes cluster using k3s on a TuringPi 2. The cluster is managed using ArgoCD for GitOps. The repository is structured in a way that it can be used to deploy the same setup on any k3s cluster.
+This repository contains the manifests needed to constuct my home kubernetes cluster using talos on a TuringPi 2. The cluster is managed using ArgoCD for GitOps. The repository is structured in a way that it can be used to deploy the same setup on any k3s cluster.
 
 ## Table of Contents
 - [Prerequisites](#prerequisites)
@@ -14,31 +14,36 @@ This repository contains the manifests needed to constuct my home kubernetes clu
 - [Minio](#minio)
 
 ## Prerequisites
-- [k3s](https://k3s.io/)
+- [Talos](https://talos.dev/)
 - [ArgoCD](https://argoproj.github.io/argo-cd/)
 - [kustomize](https://kustomize.io/)
 - [helm](https://helm.sh/)
 
 ## Hardware
 - [TuringPi 2](https://turingpi.com/turing-pi-2/)
+- [1x Turing RK1 32GB Module](https://turingpi.com/turing-rk1/)
 - [2x Turing RK1 16GB Module](https://turingpi.com/turing-rk1/)
-- [2x SanDisk SSD Plus 256GB](https://www.sandisk.com/home/ssd/ssd-plus)
+- [3x 256GB NVMe SSD](https://www.amazon.com/SanDisk-256GB-Internal-SDSSDA-256G-G26/dp/B07YFGQK2L/)
 
 ## Node Slots
-- Slot #1: Turing RK1 16GB Module 1
+- Slot #1: Turing RK1 16GB Module & 256GB NVMe SSD
 - Slot #2: Empty Slot
-- Slot #3: Turing RK1 16GB Module 2 & 2xSanDisk SSD Plus 256GB 1
-- Slot #4: Empty Slot
+- Slot #3: Turing RK1 16GB Module & 256GB NVMe SSD
+- Slot #4: Turing RK1 32GB Module & 256GB NVMe SSD
 
 ## Kubernetes Cluster
-- 1x Master Node - Slot #3:
+- 1x Master Node - Slot #1:
   Hostname: tpi2-rk1m-n01
-  IP:       192.168.7.59
-  OS:       Ubuntu 20.04.3 LTS
-- 1x Worker Node - Slot #1:
+  IP:       192.168.1.33
+  OS:       Talos v1.6.3
+- 1x Worker Node - Slot #3:
   Hostname: tpi2-rk1m-n02
-  IP:       192.168.7.58
-  OS:       Ubuntu 20.04.3 LTS
+  IP:       192.168.1.32
+  OS:       Talos v1.6.3
+- 1x Worker Node - Slot #4:
+  Hostname: tpi2-rk1m-n03
+  IP:       192.168.1.34
+  OS:       Talos v1.6.3
 
 ## Folder Structure
 ```bash

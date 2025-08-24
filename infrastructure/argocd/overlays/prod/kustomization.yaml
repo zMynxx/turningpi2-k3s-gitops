@@ -5,50 +5,51 @@ sortOptions:
   order: legacy
   legacySortOptions:
     orderLast:
-    - ClusterSecretStore
-    - AppProject
-    - ApplicationSet
+      - ClusterSecretStore
+      - AppProject
+      - ApplicationSet
 # helmCharts: https://kubectl.docs.kubernetes.io/references/kustomize/builtins/#_helmchartinflationgenerator_
 helmCharts:
-- name: argo-cd 
-  version: 6.6.0 
-  repo: https://argoproj.github.io/argo-helm
-  valuesFile: values.yaml
-  namespace: &name argocd
-  releaseName: *name
-  includeCRDs: true
+  - name: argo-cd
+    version: 6.6.0
+    repo: https://argoproj.github.io/argo-helm
+    valuesFile: values.yaml
+    namespace: &name argocd
+    releaseName: *name
+    includeCRDs: true
 
-namespace: &name argocd 
+namespace: &name argocd
 resources:
-- namespace.yaml
-- eso-dex-github-connector.yaml
-- eso-private-repo.yaml
-- dashboard-ingress.yaml
-- production-project.yaml
-- production-applicationset.yaml
+  - namespace.yaml
+  - eso-dex-github-connector.yaml
+  - eso-private-repo.yaml
+  - dashboard-ingress.yaml
+  - production-project.yaml
+  - production-applicationset.yaml
+  - production-applicationset-infrastructure.yaml
 
 patches:
-- path: crds-healthcheck.patch.yaml
-  target:
-    version: v1
-    kind: ConfigMap 
-    name: argocd-cm
-    namespace: *name
-- path: enable-helm.patch.yaml
-  target:
-    version: v1
-    kind: ConfigMap 
-    name: argocd-cm
-    namespace: *name
-- path: enable-dex.patch.yaml
-  target:
-    version: v1
-    kind: ConfigMap 
-    name: argocd-cm
-    namespace: *name
-- path: set-rbac.patch.yaml
-  target:
-    version: v1
-    kind: ConfigMap 
-    name: argocd-rbac-cm
-    namespace: *name
+  - path: crds-healthcheck.patch.yaml
+    target:
+      version: v1
+      kind: ConfigMap
+      name: argocd-cm
+      namespace: *name
+  - path: enable-helm.patch.yaml
+    target:
+      version: v1
+      kind: ConfigMap
+      name: argocd-cm
+      namespace: *name
+  - path: enable-dex.patch.yaml
+    target:
+      version: v1
+      kind: ConfigMap
+      name: argocd-cm
+      namespace: *name
+  - path: set-rbac.patch.yaml
+    target:
+      version: v1
+      kind: ConfigMap
+      name: argocd-rbac-cm
+      namespace: *name

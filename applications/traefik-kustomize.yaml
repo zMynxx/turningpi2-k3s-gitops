@@ -9,7 +9,7 @@ spec:
     server: https://kubernetes.default.svc
   project: production
   source:
-    path: kustomize/traefik/overlays/prod
+    path: infrastructure/traefik/overlays/prod
     repoURL: https://github.com/zMynxx/turningpi2-k3s-gitops.git
     targetRevision: main
   syncPolicy:

@@ -1,22 +1,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: traefik 
+  name: traefik
   namespace: argocd
 spec:
   destination:
-    namespace: traefik 
+    namespace: traefik
     server: https://kubernetes.default.svc
-  project: production 
+  project: production
   source:
     path: kustomize/traefik/overlays/prod
-    repoURL: git@github.com:zMynxx/turningpi2-k3s-gitops.git
-    targetRevision: main 
+    repoURL: https://github.com/zMynxx/turningpi2-k3s-gitops.git
+    targetRevision: main
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-    - CreateNamespace=true
-    - Validate=true
-    - PrunePropagationPolicy=Foreground
+      - CreateNamespace=true
+      - Validate=true
+      - PrunePropagationPolicy=Foreground

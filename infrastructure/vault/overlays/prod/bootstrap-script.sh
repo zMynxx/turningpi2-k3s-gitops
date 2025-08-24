@@ -64,10 +64,10 @@ if confirm_step "logging into Vault"; then
     vault login $PASSWORD; \
     vault secrets enable -version=2 -path=secret kv; \
     cat <<EOF | vault policy write readwrite -;
-    path \"secret/data/*\" { capabilities = [\"create\", \"read\", \"update\", \"delete\", \"list\"] }
+    path "secret/data/*" { capabilities = ["create", "read", "update", "delete", "list"] }
     EOF
     cat <<EOF | vault policy write readonly -;
-    path \"secret/data/*\" { capabilities = [\"read\", \"list\"] }
+    path "secret/data/*" { capabilities = ["read", "list"] }
     EOF
     vault auth enable approle; \
     vault write auth/approle/role/external-secrets-operator token_policies=\"readonly\"; \

@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: kustomize-infrastructure-applicationset
+  name: production-applicationset-infrastructure
   namespace: argocd
 spec:
   generators:

@@ -3,7 +3,5 @@ kind: Namespace
 metadata:
   creationTimestamp: null
   name: crowdsec-traefik-bouncer
-  labels:
-    pod-security.kubernetes.io/enforce: privileged
 spec: {}
 status: {}

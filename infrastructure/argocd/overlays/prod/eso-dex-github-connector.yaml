@@ -1,7 +1,7 @@
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
-  name: dex-github 
+  name: dex-github
   namespace: argocd
 
   # labels and annotations are copied over to the
@@ -11,7 +11,7 @@ metadata:
 spec:
   refreshInterval: 1h
   secretStoreRef:
-    name: vault-cluster-store 
+    name: vault-cluster-store
     kind: ClusterSecretStore
   target:
     name: github-connector
@@ -19,6 +19,8 @@ spec:
 
   ## You can get all of the secret content (recommended)
   dataFrom:
-  - extract:
-      key: secret/git/github/dex
-
+    - extract:
+        conversionStrategy: Default
+        decodingStrategy: None
+        key: secret/git/github/dex
+        metadataPolicy: None
